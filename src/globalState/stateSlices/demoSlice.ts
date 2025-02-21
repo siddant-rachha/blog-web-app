@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchDemoDataById } from '@/apiService/fetchDemoData/fetchDemoData';
 import { sliceNames } from '../sliceNames';
 
@@ -34,7 +34,7 @@ export const demoSlice = createSlice({
     status: '',
   },
   reducers: {
-    setDemo: (state, action) => {
+    setDemo: (state, action: PayloadAction<string>) => {
       state.demo = action.payload;
     },
   },
@@ -47,10 +47,10 @@ export const demoSlice = createSlice({
       .addCase(fetchDemoData.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchDemoData.fulfilled, (state, action) => {
+      .addCase(fetchDemoData.fulfilled, (state) => {
         state.status = 'succeeded';
       })
-      .addCase(fetchDemoData.rejected, (state, action) => {
+      .addCase(fetchDemoData.rejected, (state) => {
         state.status = 'failed';
       });
   },
