@@ -45,13 +45,13 @@ export const get = <ResponseType>(url: string, config?: AxiosRequestConfig) =>
 
 export const post = <RequestType, ResponseType>(
   url: string,
-  data?: RequestType,
+  data: RequestType,
   config?: AxiosRequestConfig
 ) => request<RequestType, ResponseType>('post', url, data, config);
 
 export const put = <RequestType, ResponseType>(
   url: string,
-  data?: RequestType,
+  data: RequestType,
   config?: AxiosRequestConfig
 ) => request<RequestType, ResponseType>('put', url, data, config);
 

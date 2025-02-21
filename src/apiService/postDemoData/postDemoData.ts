@@ -1,18 +1,20 @@
 import { post } from '@/utils/apiClient';
 import endpoints from '../endpoints';
 
-interface UserRequest {
-  data: 'test';
+interface DemoRequest {
+  id: string;
+  demo: 'demo';
 }
-interface UserResponse {
+interface DemoResponse {
   response: 'test';
 }
 
 // Sample Function to fetch user data by ID
-export const postUserData = async (id: string) => {
+export const postDemoData = async (data: DemoRequest) => {
   try {
-    const response = await post<UserRequest, UserResponse>(
-      endpoints.user.update(id)
+    const response = await post<DemoRequest, DemoResponse>(
+      endpoints.demo.updateById,
+      data
     );
     return response;
   } catch (error) {
