@@ -1,0 +1,10 @@
+{
+  "version": 2,
+
+  "git": {
+    "deploymentEnabled": {
+      "*": false,
+      "main": true
+    }
+  }
+}
