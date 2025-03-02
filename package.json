@@ -10,11 +10,15 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "prepare": "husky",
-    "test": "jest",
+    "test": "echo \"Error: no test specified for Surface\"",
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.6",
     "@reduxjs/toolkit": "^2.5.1",
+    "@siddant-rachha/blog-components": "^1.0.0",
     "axios": "^1.7.9",
     "next": "15.1.7",
     "react": "^19.0.0",
