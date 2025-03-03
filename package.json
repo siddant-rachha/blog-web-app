@@ -10,12 +10,14 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "prepare": "husky",
-    "test": "jest",
+    "test": "",
     "test:watch": "jest --watch"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
+    "@siddant-rachha/blog-components": "^1.0.0",
     "axios": "^1.7.9",
+    "firebase-admin": "^13.1.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

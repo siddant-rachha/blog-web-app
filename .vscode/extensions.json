@@ -5,6 +5,7 @@
     "pkief.material-icon-theme",
     "github.copilot",
     "github.copilot-chat",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "orta.vscode-jest"
   ]
 }
