@@ -23,13 +23,17 @@ export const useBlogNav = () => {
     (state: GlobalRootState) => state.blogNav.avatarSrc
   );
 
+  const avatarName = useSelector(
+    (state: GlobalRootState) => state.blogNav.avatarName
+  );
+
   const changeNav = (navItem: NavItem) => {
     dispatch(setNavActive(navItem));
     router.push(Routes[navItem]);
   };
 
   return {
-    selectors: { navActive, navItems, avatarItems, avatarSrc },
+    selectors: { navActive, navItems, avatarItems, avatarSrc, avatarName },
     actions: { changeNav },
   };
 };

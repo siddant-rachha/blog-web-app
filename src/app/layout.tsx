@@ -1,10 +1,12 @@
 'use client';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Providers from '@/globalState/providers';
 
 import LayoutWithNav from '@/components/LayoutWithNav';
 import { RouteHandler } from '@/components/RouteHandler';
+import Box from '@mui/material/Box';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,11 +26,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers>
-          <RouteHandler>
-            <LayoutWithNav>{children}</LayoutWithNav>
-          </RouteHandler>
-        </Providers>
+        <AppRouterCacheProvider>
+          <Providers>
+            <RouteHandler>
+              <LayoutWithNav>
+                <Box
+                  sx={{
+                    width: { lg: '75vw' },
+                    margin: 'auto',
+                  }}
+                >
+                  {children}
+                </Box>
+              </LayoutWithNav>
+            </RouteHandler>
+          </Providers>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

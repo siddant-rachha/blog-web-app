@@ -9,6 +9,7 @@ export const blogNavSlice = createSlice({
     navActive: NavItem.HOME,
     avatarSrc: '',
     avatarItems: [AvatarItem.LOGIN],
+    avatarName: 'Anonymous',
   },
   reducers: {
     setNavActive: (state, action: PayloadAction<NavItem>) => {

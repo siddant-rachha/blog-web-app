@@ -11,7 +11,7 @@ export default function LayoutWithNav({
   children: React.ReactNode;
 }) {
   const {
-    selectors: { navActive, navItems, avatarItems, avatarSrc },
+    selectors: { navActive, navItems, avatarItems, avatarSrc, avatarName },
     actions: { changeNav },
   } = useBlogNav();
 
@@ -35,6 +35,7 @@ export default function LayoutWithNav({
     <BlogNavContainer
       logoSrc={base64Logo}
       avatarSrc={avatarSrc}
+      avatarName={avatarName}
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
