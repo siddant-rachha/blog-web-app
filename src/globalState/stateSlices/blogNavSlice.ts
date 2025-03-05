@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { sliceNames } from '../sliceNames';
-import { AvatarItem, NavItem } from '@/app/constants/globalConstants';
+import { AvatarItem, NavItem } from '@/constants/globalConstants';
 
 export const blogNavSlice = createSlice({
   name: sliceNames.blogNav,

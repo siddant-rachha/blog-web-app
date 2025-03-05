@@ -1,10 +1,11 @@
+import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { NavItem } from '@/app/constants/globalConstants';
+import { NavItem, Routes } from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/store';
 import { setNavActive } from '@/globalState/stateSlices/blogNavSlice';
 
 export const useBlogNav = () => {
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const navActive = useSelector(
     (state: GlobalRootState) => state.blogNav.navActive
@@ -24,6 +25,7 @@ export const useBlogNav = () => {
 
   const changeNav = (navItem: NavItem) => {
     dispatch(setNavActive(navItem));
+    router.push(Routes[navItem]);
   };
 
   return {
