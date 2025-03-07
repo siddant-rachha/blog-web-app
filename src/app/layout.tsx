@@ -2,7 +2,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import Providers from '@/globalState/providers';
+import Providers from '@/globalState/rootState/providers';
 
 import LayoutWithNav from '@/components/LayoutWithNav';
 import { RouteHandler } from '@/components/RouteHandler';

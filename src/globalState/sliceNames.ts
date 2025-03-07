@@ -1,4 +1,5 @@
 export const sliceNames = {
   demo: 'demo',
-  blogNav: 'blogNav',
+  headerNavSlice: 'headerNavSlice',
+  authSlice: 'authSlice',
 } as const;

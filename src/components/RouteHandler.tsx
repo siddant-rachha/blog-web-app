@@ -1,23 +1,22 @@
 import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { NavItem, Routes } from '@/constants/globalConstants';
-import { useBlogNav } from '@/hooks/useBlogNav';
+import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
 
 export const RouteHandler = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const {
     actions: { changeNav },
-  } = useBlogNav();
+  } = useHeaderNavSlice();
 
   useEffect(() => {
-    if ((pathname as NavItem) === Routes[NavItem.HOME]) {
-      changeNav(NavItem.HOME);
-    }
+    const activeNav = Object.keys(Routes).find(
+      (key) => Routes[key as NavItem] === pathname
+    ) as NavItem | undefined;
 
-    if ((pathname as NavItem) === Routes[NavItem.CREATE_POST]) {
-      changeNav(NavItem.CREATE_POST);
+    if (activeNav) {
+      changeNav(activeNav);
     }
-    console.log(Routes[NavItem.CREATE_POST]);
   }, []);
 
   return <>{children}</>;

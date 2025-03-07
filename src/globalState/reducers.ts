@@ -1,9 +1,11 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { sliceNames } from './sliceNames';
 import { demoReducer } from './stateSlices/demoSlice';
-import { blogNavReducer } from './stateSlices/blogNavSlice';
+import { authReducer } from './stateSlices/authSlice/authSlice';
+import { blogNavReducer } from './stateSlices/headerNavSlice/headerNavSlice';
 
 export const rootReducer = combineReducers({
   [sliceNames.demo]: demoReducer,
-  [sliceNames.blogNav]: blogNavReducer,
+  [sliceNames.headerNavSlice]: blogNavReducer,
+  [sliceNames.authSlice]: authReducer,
 });

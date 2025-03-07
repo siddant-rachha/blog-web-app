@@ -20,6 +20,7 @@ export const request = async <RequestType, ResponseType>(
     const response: AxiosResponse<ResponseType> =
       await axiosInstance(axiosRequestConfig);
     return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error(`${method.toUpperCase()} request error:`, error);
     // can add more structured error handling here

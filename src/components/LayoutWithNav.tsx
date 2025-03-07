@@ -2,8 +2,10 @@
 
 import { BlogNavContainer } from '@siddant-rachha/blog-components';
 import { base64Logo } from '@/assets/base64Logo';
-import { useBlogNav } from '@/hooks/useBlogNav';
-import { NavItem } from '@/constants/globalConstants';
+import { AvatarItem, NavItem } from '@/constants/globalConstants';
+import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
+import { useAuthSlice } from '@/globalState/stateSlices/authSlice/useAuthSlice';
+import { AuthModal } from './AuthModal';
 
 export default function LayoutWithNav({
   children,
@@ -11,16 +13,16 @@ export default function LayoutWithNav({
   children: React.ReactNode;
 }) {
   const {
-    selectors: { navActive, navItems, avatarItems, avatarSrc, avatarName },
+    selectors: { navActive, navItems, avatarItems },
     actions: { changeNav },
-  } = useBlogNav();
+  } = useHeaderNavSlice();
+  const {
+    selectors: { userDetails },
+    actions: { setShowAuthContainer, userSignOut },
+  } = useAuthSlice();
 
   const handleNavItem = (navItem: string) => {
     changeNav(navItem as NavItem);
-  };
-
-  const handleAvatarItem = (item: string) => {
-    console.log(item);
   };
 
   const handleSearchInput = (item: string) => {
@@ -31,11 +33,20 @@ export default function LayoutWithNav({
     console.log(item);
   };
 
+  const handleAvatarItem = (item: string) => {
+    const avatarItem = item as AvatarItem;
+    if (avatarItem === AvatarItem.LOGIN) {
+      setShowAuthContainer(true);
+    } else if (avatarItem === AvatarItem.LOGOUT) {
+      userSignOut();
+    }
+  };
+
   return (
     <BlogNavContainer
       logoSrc={base64Logo}
-      avatarSrc={avatarSrc}
-      avatarName={avatarName}
+      avatarSrc={userDetails?.photoURL || '.'}
+      avatarName={userDetails?.displayName || 'Anonymous'}
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
@@ -45,6 +56,7 @@ export default function LayoutWithNav({
       handleSearchInput={handleSearchInput}
       handleSearchItem={handleSearchItem}
     >
+      <AuthModal />
       {children}
     </BlogNavContainer>
   );

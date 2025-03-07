@@ -42,11 +42,11 @@ export const blogPosts = Array.from({ length: 25 }, (_, index) => {
 
   return {
     id: String(index + 1),
-    title: titles[index % titles.length],
+    title: titles[index % titles.length] as string,
     author: `Author ${index + 1}`,
-    avatarSrc: avatarUrls[index % avatarUrls.length], // Deterministic selection
+    avatarSrc: avatarUrls[index % avatarUrls.length] as string, // Deterministic selection
     date: `March ${index + 1}, 2024`,
-    imgSrc: imageUrls[index % imageUrls.length], // Deterministic selection
+    imgSrc: imageUrls[index % imageUrls.length] as string, // Deterministic selection
     desc: `This is a blog post about ${titles[index % titles.length]}. It covers key insights and industry trends.`,
     writePermission: index % 2 === 0, // Even indexes have write permission
   };
