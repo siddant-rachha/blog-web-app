@@ -1,55 +1,27 @@
 'use client';
-import { Box, IconButton, Paper } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
+import { Close, Google } from '@mui/icons-material';
 import { useAuthSlice } from '@/globalState/stateSlices/authSlice/useAuthSlice';
 import { useEffect } from 'react';
 import {
+  authChangeEventListener,
   firebaseAuth,
-  firebaseUIModal,
-  FirebaseUser,
-  GoogleAuthProvider,
-  onAuthStateChanged,
 } from '@/firebase/firebaseClient';
 import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
 
 export const AuthModal = () => {
   const {
-    actions: { setShowAuthContainer, setUserDetails },
-    selectors: { showAuthContainer },
+    actions: { setShowAuthModal, setUserDetails, authSignIn },
+    selectors: { showAuthModal },
   } = useAuthSlice();
+
   const {
-    actions: { setAvatarItemsAsLogin },
+    actions: { setAvatarItemsAsLogin, setAvatarItemsAsLogout },
   } = useHeaderNavSlice();
 
   useEffect(() => {
-    if (showAuthContainer && firebaseUIModal) {
-      firebaseUIModal.start('#firebaseui-auth-container', {
-        signInOptions: [GoogleAuthProvider.PROVIDER_ID],
-        signInFlow: 'popup',
-        callbacks: {
-          signInSuccessWithAuthResult: (authResult) => {
-            const firebaseUser = authResult.user as FirebaseUser;
-
-            const userDetails = {
-              uid: firebaseUser.uid,
-              displayName: firebaseUser.displayName || '',
-              email: firebaseUser.email || '',
-              photoURL: firebaseUser.photoURL || '',
-            };
-
-            setUserDetails(userDetails);
-            setAvatarItemsAsLogin();
-            setShowAuthContainer(false);
-            return false;
-          },
-        },
-      });
-    }
-  }, [showAuthContainer]);
-
-  useEffect(() => {
     // when first time application loads
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+    const unsubscribe = authChangeEventListener(firebaseAuth, (user) => {
       if (user) {
         const userDetails = {
           uid: user.uid,
@@ -58,12 +30,17 @@ export const AuthModal = () => {
           photoURL: user.photoURL || '',
         };
         setUserDetails(userDetails);
+        setAvatarItemsAsLogin();
+      } else {
+        setUserDetails(null);
+        setAvatarItemsAsLogout();
       }
     });
+
     return () => unsubscribe();
   }, []);
 
-  const renderAuthModal = showAuthContainer ? (
+  const renderAuthModal = showAuthModal ? (
     <Box
       sx={{
         position: 'fixed',
@@ -74,7 +51,7 @@ export const AuthModal = () => {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         zIndex: 999,
       }}
-      onClick={() => setShowAuthContainer(false)}
+      onClick={() => setShowAuthModal(false)}
     >
       <Paper
         elevation={12}
@@ -97,11 +74,13 @@ export const AuthModal = () => {
       >
         <IconButton
           sx={{ position: 'absolute', top: 10, right: 10 }}
-          onClick={() => setShowAuthContainer(false)}
+          onClick={() => setShowAuthModal(false)}
         >
           <Close />
         </IconButton>
-        <div id="firebaseui-auth-container"></div>
+        <Button style={{ padding: '1rem' }} onClick={() => authSignIn()}>
+          <Google /> <Typography mx={2}>Sign in with Google</Typography>
+        </Button>
       </Paper>
     </Box>
   ) : null;

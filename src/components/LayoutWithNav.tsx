@@ -18,7 +18,7 @@ export default function LayoutWithNav({
   } = useHeaderNavSlice();
   const {
     selectors: { userDetails },
-    actions: { setShowAuthContainer, userSignOut },
+    actions: { authSignOut, setShowAuthModal },
   } = useAuthSlice();
 
   const handleNavItem = (navItem: string) => {
@@ -36,9 +36,9 @@ export default function LayoutWithNav({
   const handleAvatarItem = (item: string) => {
     const avatarItem = item as AvatarItem;
     if (avatarItem === AvatarItem.LOGIN) {
-      setShowAuthContainer(true);
+      setShowAuthModal(true);
     } else if (avatarItem === AvatarItem.LOGOUT) {
-      userSignOut();
+      authSignOut();
     }
   };
 

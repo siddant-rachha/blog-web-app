@@ -1,14 +1,13 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import {
   getAuth,
-  GoogleAuthProvider,
-  onAuthStateChanged,
+  GoogleAuthProvider as GoogleAuthFirebase,
+  onAuthStateChanged as authChangeEventListener,
   User,
-  signOut,
+  signInWithPopup as firebaseSignIn,
+  signOut as firebaseSignOut,
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import * as firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_apiKey,
@@ -26,22 +25,16 @@ const firebaseApp = !getApps().length
 const firebaseAuth = getAuth(firebaseApp);
 const firebaseDb = getFirestore(firebaseApp);
 
-let firebaseUIModal: firebaseui.auth.AuthUI | null = null;
-if (typeof window !== 'undefined') {
-  firebaseUIModal = new firebaseui.auth.AuthUI(firebaseAuth);
-}
-
-const authSignOut = () => {
-  return signOut(firebaseAuth);
-};
+const googleAuthProvider = new GoogleAuthFirebase();
 
 export {
   firebaseApp,
   firebaseAuth,
   firebaseDb,
-  firebaseUIModal,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  authSignOut,
+  googleAuthProvider,
+  firebaseSignIn,
+  authChangeEventListener,
+  firebaseSignOut,
+  GoogleAuthFirebase,
 };
 export type { User as FirebaseUser };

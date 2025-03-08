@@ -1,49 +1,66 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { authSliceActions, UserDetails } from './authSlice';
-import { authSignOut } from '@/firebase/firebaseClient';
 import { useHeaderNavSlice } from '../headerNavSlice/useHeaderNavSlice';
+import {
+  firebaseAuth,
+  firebaseSignIn,
+  firebaseSignOut,
+  googleAuthProvider,
+} from '@/firebase/firebaseClient';
 
 export const useAuthSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
-    actions: { setAvatarItemsAsLogout },
+    actions: { setAvatarItemsAsLogout, setAvatarItemsAsLogin },
   } = useHeaderNavSlice();
 
   // selectors
-  const isAuth = useSelector(
-    (state: GlobalRootState) => state.authSlice.isAuth
-  );
-  const showAuthContainer = useSelector(
-    (state: GlobalRootState) => state.authSlice.showAuthContainer
+
+  const showAuthModal = useSelector(
+    (state: GlobalRootState) => state.authSlice.showAuthModal
   );
   const userDetails = useSelector(
     (state: GlobalRootState) => state.authSlice.userDetails
   );
-  const setAuth = (bool: boolean) => {
-    dispatch(authSliceActions.setIsAuth(bool));
-  };
 
   // actions
-  const setShowAuthContainer = (bool: boolean) => {
-    dispatch(authSliceActions.setShowAuthContainer(bool));
+  const setShowAuthModal = (bool: boolean) => {
+    dispatch(authSliceActions.setShowAuthModal(bool));
   };
   const setUserDetails = (user: UserDetails | null) => {
     dispatch(authSliceActions.setUserDetails(user));
   };
 
-  const userSignOut = async () => {
+  const authSignOut = async () => {
     try {
-      await authSignOut();
-      dispatch(authSliceActions.setUserDetails(null));
+      await firebaseSignOut(firebaseAuth);
+      // user details is set by authChangeEventListener
       setAvatarItemsAsLogout();
+      setUserDetails(null);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const authSignIn = async () => {
+    try {
+      await firebaseSignIn(firebaseAuth, googleAuthProvider);
+      // user details is set by authChangeEventListener
+      setAvatarItemsAsLogin();
+      setShowAuthModal(false);
     } catch (e) {
       console.error(e);
     }
   };
 
   return {
-    selectors: { userDetails, isAuth, showAuthContainer },
-    actions: { setAuth, setShowAuthContainer, setUserDetails, userSignOut },
+    selectors: { userDetails, showAuthModal },
+    actions: {
+      setShowAuthModal,
+      setUserDetails,
+      authSignOut,
+      authSignIn,
+    },
   };
 };

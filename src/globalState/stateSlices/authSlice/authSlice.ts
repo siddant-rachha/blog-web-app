@@ -11,16 +11,12 @@ export type UserDetails = {
 const authSlice = createSlice({
   name: sliceNames.authSlice,
   initialState: {
-    isAuth: false,
-    showAuthContainer: false,
+    showAuthModal: false,
     userDetails: null as UserDetails,
   },
   reducers: {
-    setIsAuth: (state, action: PayloadAction<boolean>) => {
-      state.isAuth = action.payload;
-    },
-    setShowAuthContainer: (state, action: PayloadAction<boolean>) => {
-      state.showAuthContainer = action.payload;
+    setShowAuthModal: (state, action: PayloadAction<boolean>) => {
+      state.showAuthModal = action.payload;
     },
     setUserDetails: (state, action: PayloadAction<UserDetails | null>) => {
       state.userDetails = action.payload;
