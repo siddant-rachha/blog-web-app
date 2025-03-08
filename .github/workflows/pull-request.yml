@@ -18,6 +18,16 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_APIKEY=${{ secrets.NEXT_PUBLIC_APIKEY }}" >> .env.local
+          echo "NEXT_PUBLIC_AUTHDOMAIN=${{ secrets.NEXT_PUBLIC_AUTHDOMAIN }}" >> .env.local
+          echo "NEXT_PUBLIC_PROJECTID=${{ secrets.NEXT_PUBLIC_PROJECTID }}" >> .env.local
+          echo "NEXT_PUBLIC_STORAGEBUCKET=${{ secrets.NEXT_PUBLIC_STORAGEBUCKET }}" >> .env.local
+          echo "NEXT_PUBLIC_MESSAGINGSENDERID=${{ secrets.NEXT_PUBLIC_MESSAGINGSENDERID }}" >> .env.local
+          echo "NEXT_PUBLIC_APPID=${{ secrets.NEXT_PUBLIC_APPID }}" >> .env.local
+          echo "NEXT_PUBLIC_MEASUREMENTID=${{ secrets.NEXT_PUBLIC_MEASUREMENTID }}" >> .env.local
+
       - name: Install dependencies
         run: npm install
 
