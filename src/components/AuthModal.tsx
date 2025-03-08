@@ -62,8 +62,8 @@ export const AuthModal = () => {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'white',
           padding: 3,
-          minWidth: '50vw',
-          minHeight: '50vh',
+          minWidth: { xs: '50vw', sm: '30vw' },
+          minHeight: '30vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -78,8 +78,14 @@ export const AuthModal = () => {
         >
           <Close />
         </IconButton>
-        <Button style={{ padding: '1rem' }} onClick={() => authSignIn()}>
-          <Google /> <Typography mx={2}>Sign in with Google</Typography>
+        <Button
+          style={{ padding: '0.5rem 1rem', border: '1px solid blue' }}
+          onClick={() => authSignIn()}
+        >
+          <Google />{' '}
+          <Typography color={'warning'} mx={2}>
+            Sign in with Google
+          </Typography>
         </Button>
       </Paper>
     </Box>
