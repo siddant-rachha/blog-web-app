@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { headerNavSliceActions } from '@/globalState/stateSlices/headerNavSlice/headerNavSlice';
+import { searchPostsService } from '@/apiService/searchPostsService/searchPostsService';
 
 export const useHeaderNavSlice = () => {
   const router = useRouter();
@@ -14,6 +15,10 @@ export const useHeaderNavSlice = () => {
 
   const avatarItems = useSelector(
     (state: GlobalRootState) => state.headerNavSlice.avatarItems
+  );
+
+  const searchItems = useSelector(
+    (state: GlobalRootState) => state.headerNavSlice.searchItems
   );
 
   const navItems = useSelector(
@@ -33,8 +38,32 @@ export const useHeaderNavSlice = () => {
     dispatch(headerNavSliceActions.setAvatarItems([AvatarItem.LOGIN]));
   };
 
+  const handleSearchPosts = async (query: string) => {
+    if (query.length < 3) {
+      dispatch(headerNavSliceActions.setSearchItems([]));
+      return;
+    }
+    try {
+      const res = await searchPostsService({ query });
+      const searchItemsObj = res?.posts?.map((post) => {
+        return {
+          id: post.id,
+          title: post.title,
+        };
+      });
+      dispatch(headerNavSliceActions.setSearchItems(searchItemsObj || []));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
-    selectors: { navActive, navItems, avatarItems },
-    actions: { changeNav, setAvatarItemsAsLogin, setAvatarItemsAsLogout },
+    selectors: { navActive, navItems, avatarItems, searchItems },
+    actions: {
+      changeNav,
+      setAvatarItemsAsLogin,
+      setAvatarItemsAsLogout,
+      handleSearchPosts,
+    },
   };
 };

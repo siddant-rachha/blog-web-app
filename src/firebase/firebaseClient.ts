@@ -7,7 +7,6 @@ import {
   signInWithPopup as firebaseSignIn,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_APIKEY,
@@ -23,15 +22,12 @@ const firebaseApp = !getApps().length
   ? initializeApp(firebaseConfig)
   : getApp();
 const firebaseAuth = getAuth(firebaseApp);
-const firebaseDb = getFirestore(firebaseApp);
 
 const googleAuthProvider = new GoogleAuthFirebase();
 googleAuthProvider.setCustomParameters({ prompt: 'select_account' });
 
 export {
-  firebaseApp,
   firebaseAuth,
-  firebaseDb,
   googleAuthProvider,
   firebaseSignIn,
   authChangeEventListener,

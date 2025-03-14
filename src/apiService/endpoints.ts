@@ -6,6 +6,7 @@ const endpoints = {
     updateById: `/api/users`,
   },
   addPostEndpoint: '/api/createpost',
+  searchPostsEndpoint: '/api/searchposts',
 };
 
 export default endpoints;

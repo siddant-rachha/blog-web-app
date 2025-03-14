@@ -20,7 +20,7 @@
     "@mui/material": "^6.4.6",
     "@mui/material-nextjs": "^6.4.3",
     "@reduxjs/toolkit": "^2.5.1",
-    "@siddant-rachha/blog-components": "^1.0.4",
+    "@siddant-rachha/blog-components": "^1.0.5",
     "axios": "^1.7.9",
     "firebase": "^10.0.0",
     "firebase-admin": "^13.1.0",

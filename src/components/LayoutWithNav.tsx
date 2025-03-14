@@ -13,8 +13,8 @@ export default function LayoutWithNav({
   children: React.ReactNode;
 }) {
   const {
-    selectors: { navActive, navItems, avatarItems },
-    actions: { changeNav },
+    selectors: { navActive, navItems, avatarItems, searchItems },
+    actions: { changeNav, handleSearchPosts },
   } = useHeaderNavSlice();
   const {
     selectors: { userDetails },
@@ -26,10 +26,10 @@ export default function LayoutWithNav({
   };
 
   const handleSearchInput = (item: string) => {
-    console.log(item);
+    handleSearchPosts(item);
   };
 
-  const handleSearchItem = (item: string) => {
+  const handleSearchItem = (item: { id: string; title: string }) => {
     console.log(item);
   };
 
@@ -50,7 +50,7 @@ export default function LayoutWithNav({
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
-      searchItems={[]}
+      searchItems={searchItems}
       handleNavItem={handleNavItem}
       handleAvatarItem={handleAvatarItem}
       handleSearchInput={handleSearchInput}
