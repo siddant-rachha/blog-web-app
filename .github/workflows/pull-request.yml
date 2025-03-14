@@ -18,13 +18,18 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Create .env file dynamically
+      - name: Create .env file
         run: |
-          touch .env.local
-          for secret in $(printenv | awk -F= '{print $1}'); do
-            echo "$secret=${!secret}" >> .env.local
-          done
-        env: ${{ toJson(secrets) }}
+          cat <<EOF > .env.local
+          NEXT_PUBLIC_APIKEY=${{ secrets.NEXT_PUBLIC_APIKEY }}
+          NEXT_PUBLIC_AUTHDOMAIN=${{ secrets.NEXT_PUBLIC_AUTHDOMAIN }}
+          NEXT_PUBLIC_PROJECTID=${{ secrets.NEXT_PUBLIC_PROJECTID }}
+          NEXT_PUBLIC_STORAGEBUCKET=${{ secrets.NEXT_PUBLIC_STORAGEBUCKET }}
+          NEXT_PUBLIC_MESSAGINGSENDERID=${{ secrets.NEXT_PUBLIC_MESSAGINGSENDERID }}
+          NEXT_PUBLIC_APPID=${{ secrets.NEXT_PUBLIC_APPID }}
+          NEXT_PUBLIC_MEASUREMENTID=${{ secrets.NEXT_PUBLIC_MEASUREMENTID }}
+          FIREBASE_ADMIN_KEY=${{ secrets.FIREBASE_ADMIN_KEY }}
+          EOF
 
       - name: Install dependencies
         run: npm install
