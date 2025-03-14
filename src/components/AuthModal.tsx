@@ -1,13 +1,13 @@
 'use client';
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Close, Google } from '@mui/icons-material';
-import { useAuthSlice } from '@/globalState/stateSlices/authSlice/useAuthSlice';
 import { useEffect } from 'react';
 import {
   authChangeEventListener,
   firebaseAuth,
 } from '@/firebase/firebaseClient';
-import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
+import { useAuthSlice } from '@/hooks/useAuthSlice';
+import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 
 export const AuthModal = () => {
   const {
@@ -62,7 +62,7 @@ export const AuthModal = () => {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'white',
           padding: 3,
-          minWidth: { xs: '50vw', sm: '30vw' },
+          minWidth: { xs: '80vw', sm: '60vw', md: '40vw' },
           minHeight: '30vh',
           display: 'flex',
           flexDirection: 'column',

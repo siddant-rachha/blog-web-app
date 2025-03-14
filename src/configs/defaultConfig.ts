@@ -1,5 +1,5 @@
 const defaultConfig = {
-  baseUrl: process.env.BASE_URL || 'https://api.example.com',
+  baseUrl: process.env.BASE_URL || '/',
 };
 
 export default defaultConfig;

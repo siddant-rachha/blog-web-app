@@ -49,12 +49,3 @@ export const post = <RequestType, ResponseType>(
   data: RequestType,
   config?: AxiosRequestConfig
 ) => request<RequestType, ResponseType>('post', url, data, config);
-
-export const put = <RequestType, ResponseType>(
-  url: string,
-  data: RequestType,
-  config?: AxiosRequestConfig
-) => request<RequestType, ResponseType>('put', url, data, config);
-
-export const del = <ResponseType>(url: string, config?: AxiosRequestConfig) =>
-  request<undefined, ResponseType>('delete', url, undefined, config);

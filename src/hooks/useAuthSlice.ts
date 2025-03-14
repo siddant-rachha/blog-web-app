@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
-import { authSliceActions, UserDetails } from './authSlice';
-import { useHeaderNavSlice } from '../headerNavSlice/useHeaderNavSlice';
 import {
   firebaseAuth,
   firebaseSignIn,
   firebaseSignOut,
   googleAuthProvider,
 } from '@/firebase/firebaseClient';
+import { useHeaderNavSlice } from './useHeaderNavSlice';
+import { authSliceActions } from '@/globalState/stateSlices/authSlice/authSlice';
+import { UserDetails } from '@/types/types';
 
 export const useAuthSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +38,6 @@ export const useAuthSlice = () => {
       await firebaseSignOut(firebaseAuth);
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogout();
-      setUserDetails(null);
     } catch (e) {
       console.error(e);
     }

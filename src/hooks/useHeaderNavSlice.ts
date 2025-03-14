@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
-import { headerNavSliceActions } from './headerNavSlice';
+import { headerNavSliceActions } from '@/globalState/stateSlices/headerNavSlice/headerNavSlice';
 
 export const useHeaderNavSlice = () => {
   const router = useRouter();

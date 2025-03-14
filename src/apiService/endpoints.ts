@@ -1,4 +1,3 @@
-// Sample endpoints for the API
 const endpoints = {
   // Sample demo endpoints
   demo: {
@@ -6,6 +5,7 @@ const endpoints = {
     fetchById: (id: string) => `/api/users/${id}`,
     updateById: `/api/users`,
   },
+  addPostEndpoint: '/api/createpost',
 };
 
 export default endpoints;

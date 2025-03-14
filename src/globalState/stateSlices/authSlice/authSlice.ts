@@ -1,12 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { sliceNames } from '../../sliceNames';
-
-export type UserDetails = {
-  uid: string;
-  displayName: string;
-  email: string;
-  photoURL: string;
-} | null;
+import { UserDetails } from '@/types/types';
 
 const authSlice = createSlice({
   name: sliceNames.authSlice,

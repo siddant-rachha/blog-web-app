@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { NavItem, Routes } from '@/constants/globalConstants';
-import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
+import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 
 export const RouteHandler = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();

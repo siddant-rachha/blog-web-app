@@ -3,9 +3,9 @@
 import { BlogNavContainer } from '@siddant-rachha/blog-components';
 import { base64Logo } from '@/assets/base64Logo';
 import { AvatarItem, NavItem } from '@/constants/globalConstants';
-import { useHeaderNavSlice } from '@/globalState/stateSlices/headerNavSlice/useHeaderNavSlice';
-import { useAuthSlice } from '@/globalState/stateSlices/authSlice/useAuthSlice';
 import { AuthModal } from './AuthModal';
+import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
+import { useAuthSlice } from '@/hooks/useAuthSlice';
 
 export default function LayoutWithNav({
   children,
