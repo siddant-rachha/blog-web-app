@@ -9,15 +9,18 @@ import {
 import { useHeaderNavSlice } from './useHeaderNavSlice';
 import { authSliceActions } from '@/globalState/stateSlices/authSlice/authSlice';
 import { UserDetails } from '@/types/types';
+import { useCommonSlice } from './useCommonSlice';
 
 export const useAuthSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
     actions: { setAvatarItemsAsLogout, setAvatarItemsAsLogin },
   } = useHeaderNavSlice();
+  const {
+    actions: { setRootLoading },
+  } = useCommonSlice();
 
   // selectors
-
   const showAuthModal = useSelector(
     (state: GlobalRootState) => state.authSlice.showAuthModal
   );
@@ -35,22 +38,29 @@ export const useAuthSlice = () => {
 
   const authSignOut = async () => {
     try {
+      setRootLoading(true);
       await firebaseSignOut(firebaseAuth);
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogout();
     } catch (e) {
       console.error(e);
+    } finally {
+      setRootLoading(false);
     }
   };
 
   const authSignIn = async () => {
     try {
+      setRootLoading(true);
+
       await firebaseSignIn(firebaseAuth, googleAuthProvider);
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogin();
       setShowAuthModal(false);
     } catch (e) {
       console.error(e);
+    } finally {
+      setRootLoading(false);
     }
   };
 

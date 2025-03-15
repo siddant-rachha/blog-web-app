@@ -3,4 +3,5 @@ export const sliceNames = {
   headerNavSlice: 'headerNavSlice',
   authSlice: 'authSlice',
   postsSlice: 'postsSlice',
+  commonSlice: 'commonSlice',
 } as const;

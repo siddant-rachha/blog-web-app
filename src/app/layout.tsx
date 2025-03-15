@@ -7,6 +7,8 @@ import Providers from '@/globalState/rootState/providers';
 import LayoutWithNav from '@/components/LayoutWithNav';
 import { RouteHandler } from '@/components/RouteHandler';
 import Box from '@mui/material/Box';
+import { ToastNotify } from '@/components/ToastNotify';
+import { Spinner } from '@/components/Spinner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,6 +39,8 @@ export default function RootLayout({
                   }}
                 >
                   {children}
+                  <ToastNotify />
+                  <Spinner />
                 </Box>
               </LayoutWithNav>
             </RouteHandler>

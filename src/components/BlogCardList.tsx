@@ -14,10 +14,6 @@ export const BlogCardList = () => {
     getAllPosts();
   }, []);
 
-  useEffect(() => {
-    console.log(allPosts);
-  }, [allPosts]);
-
   return (
     <BlogList
       blogPosts={allPosts}
