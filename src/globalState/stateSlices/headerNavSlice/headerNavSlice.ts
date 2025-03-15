@@ -14,6 +14,7 @@ export const headerNavSlice = createSlice({
     navActive: NavItem.HOME,
     avatarItems: [AvatarItem.LOGIN],
     searchItems: [] as SearchItemType,
+    searchLoading: false,
   },
   reducers: {
     setNavActive: (state, action: PayloadAction<NavItem>) => {
@@ -27,6 +28,9 @@ export const headerNavSlice = createSlice({
       action: PayloadAction<{ id: string; title: string }[]>
     ) => {
       state.searchItems = action.payload;
+    },
+    setSearchLoading: (state, action: PayloadAction<boolean>) => {
+      state.searchLoading = action.payload;
     },
   },
 });

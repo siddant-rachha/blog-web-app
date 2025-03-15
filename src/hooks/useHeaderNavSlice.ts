@@ -25,6 +25,10 @@ export const useHeaderNavSlice = () => {
     (state: GlobalRootState) => state.headerNavSlice.navItems
   );
 
+  const searchLoading = useSelector(
+    (state: GlobalRootState) => state.headerNavSlice.searchLoading
+  );
+
   const changeNav = (navItem: NavItem) => {
     dispatch(headerNavSliceActions.setNavActive(navItem));
     router.push(Routes[navItem]);
@@ -38,12 +42,17 @@ export const useHeaderNavSlice = () => {
     dispatch(headerNavSliceActions.setAvatarItems([AvatarItem.LOGIN]));
   };
 
+  const setSearchLoading = (bool: boolean) => {
+    dispatch(headerNavSliceActions.setSearchLoading(bool));
+  };
+
   const handleSearchPosts = async (query: string) => {
     if (query.length < 3) {
       dispatch(headerNavSliceActions.setSearchItems([]));
       return;
     }
     try {
+      setSearchLoading(true);
       const res = await searchPostsService({ query });
       const searchItemsObj = res?.posts?.map((post) => {
         return {
@@ -54,11 +63,13 @@ export const useHeaderNavSlice = () => {
       dispatch(headerNavSliceActions.setSearchItems(searchItemsObj || []));
     } catch (e) {
       console.log(e);
+    } finally {
+      setSearchLoading(false);
     }
   };
 
   return {
-    selectors: { navActive, navItems, avatarItems, searchItems },
+    selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },
     actions: {
       changeNav,
       setAvatarItemsAsLogin,

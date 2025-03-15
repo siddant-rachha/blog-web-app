@@ -13,7 +13,7 @@ export default function LayoutWithNav({
   children: React.ReactNode;
 }) {
   const {
-    selectors: { navActive, navItems, avatarItems, searchItems },
+    selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },
     actions: { changeNav, handleSearchPosts },
   } = useHeaderNavSlice();
   const {
@@ -51,6 +51,7 @@ export default function LayoutWithNav({
       navItems={navItems}
       navActive={navActive}
       searchItems={searchItems}
+      searchItemLoading={searchLoading}
       handleNavItem={handleNavItem}
       handleAvatarItem={handleAvatarItem}
       handleSearchInput={handleSearchInput}
