@@ -8,7 +8,6 @@ export const useAddPost = () => {
       // TODO: implement toast
       alert(`${res.message}, ${res.postId}`);
     } catch (e) {
-      debugger;
       console.log(e);
     }
   };

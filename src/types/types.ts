@@ -5,6 +5,17 @@ export type UserDetails = {
   photoURL: string;
 } | null;
 
+export type PostType = {
+  id: string;
+  title: string;
+  desc: string;
+  imgSrc: string;
+  avatarSrc: string;
+  author: string;
+  writePermission: boolean;
+  date: string;
+};
+
 export type AddPostFormType = {
   title: string;
   desc: string;

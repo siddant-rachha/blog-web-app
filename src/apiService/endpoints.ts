@@ -7,6 +7,7 @@ const endpoints = {
   },
   addPostEndpoint: '/api/createpost',
   searchPostsEndpoint: '/api/searchposts',
+  getPosts: '/api/getposts',
 };
 
 export default endpoints;

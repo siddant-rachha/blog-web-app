@@ -25,7 +25,7 @@ export const addPostService = async (formData: AddPostRequest) => {
     const response = await post<typeof data, AddPostResponse>(
       endpoints.addPostEndpoint,
       data,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
+      { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 15000 }
     );
     return response;
   } catch (error) {

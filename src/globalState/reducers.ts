@@ -3,9 +3,11 @@ import { sliceNames } from './sliceNames';
 import { demoReducer } from './stateSlices/demoSlice';
 import { authReducer } from './stateSlices/authSlice/authSlice';
 import { blogNavReducer } from './stateSlices/headerNavSlice/headerNavSlice';
+import { postsSliceReducer } from './stateSlices/postsSlice/postsSlice';
 
 export const rootReducer = combineReducers({
   [sliceNames.demo]: demoReducer,
   [sliceNames.headerNavSlice]: blogNavReducer,
   [sliceNames.authSlice]: authReducer,
+  [sliceNames.postsSlice]: postsSliceReducer,
 });
