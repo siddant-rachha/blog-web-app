@@ -5,6 +5,7 @@ interface AddPostRequest {
   title: string;
   desc: string;
   name: string;
+  imageFile: File | null;
 }
 interface AddPostResponse {
   message: string;
@@ -12,11 +13,19 @@ interface AddPostResponse {
   error: string;
 }
 
-export const addPostService = async (data: AddPostRequest) => {
+export const addPostService = async (formData: AddPostRequest) => {
   try {
-    const response = await post<AddPostRequest, AddPostResponse>(
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('desc', formData.desc);
+    data.append('name', formData.name);
+    if (formData.imageFile) {
+      data.append('image', formData.imageFile);
+    }
+    const response = await post<typeof data, AddPostResponse>(
       endpoints.addPostEndpoint,
-      data
+      data,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
     );
     return response;
   } catch (error) {

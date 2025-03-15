@@ -6,8 +6,8 @@ export type UserDetails = {
 } | null;
 
 export type AddPostFormType = {
-  base64Image: string | null;
   title: string;
   desc: string;
   name: string;
+  imageFile: File | null;
 };
