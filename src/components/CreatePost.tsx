@@ -23,14 +23,15 @@ export const CreatePost = () => {
     try {
       await handleFormAddPost(formData);
       setResetForm(true);
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 
   useEffect(() => {
     if (resetForm) {
-      setResetForm(true);
+      setResetForm(false);
     }
   }, [resetForm]);
 

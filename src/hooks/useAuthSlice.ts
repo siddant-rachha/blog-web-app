@@ -10,6 +10,7 @@ import { useHeaderNavSlice } from './useHeaderNavSlice';
 import { authSliceActions } from '@/globalState/stateSlices/authSlice/authSlice';
 import { UserDetails } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
+import { useToast } from './useToast';
 
 export const useAuthSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,6 +20,8 @@ export const useAuthSlice = () => {
   const {
     actions: { setRootLoading },
   } = useCommonSlice();
+
+  const { successNotify, errorNotify } = useToast();
 
   // selectors
   const showAuthModal = useSelector(
@@ -42,8 +45,11 @@ export const useAuthSlice = () => {
       await firebaseSignOut(firebaseAuth);
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogout();
-    } catch (e) {
-      console.error(e);
+      successNotify('Sign out successfull');
+    } catch (error) {
+      console.error(error);
+      errorNotify('Sign out failed');
+      throw error;
     } finally {
       setRootLoading(false);
     }
@@ -57,8 +63,11 @@ export const useAuthSlice = () => {
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogin();
       setShowAuthModal(false);
-    } catch (e) {
-      console.error(e);
+      successNotify('Sign in successfull');
+    } catch (error) {
+      console.error(error);
+      errorNotify('Sign in failed');
+      throw error;
     } finally {
       setRootLoading(false);
     }

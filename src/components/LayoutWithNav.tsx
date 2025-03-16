@@ -6,6 +6,8 @@ import { AvatarItem, NavItem } from '@/constants/globalConstants';
 import { AuthModal } from './AuthModal';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
+import { useCallback } from 'react';
+import { debounce } from 'lodash';
 
 export default function LayoutWithNav({
   children,
@@ -14,7 +16,7 @@ export default function LayoutWithNav({
 }) {
   const {
     selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },
-    actions: { changeNav, handleSearchPosts },
+    actions: { changeNav, handleSearchPosts, setSearchLoading },
   } = useHeaderNavSlice();
   const {
     selectors: { userDetails },
@@ -25,8 +27,18 @@ export default function LayoutWithNav({
     changeNav(navItem as NavItem);
   };
 
+  // Debounced search function (waits 1000ms before triggering the search)
+  const debouncedSearch = useCallback(
+    debounce(async (item: string) => {
+      await handleSearchPosts(item);
+      setSearchLoading(false);
+    }, 1000),
+    [handleSearchPosts]
+  );
+
   const handleSearchInput = (item: string) => {
-    handleSearchPosts(item);
+    if (item.length >= 3) setSearchLoading(true);
+    debouncedSearch(item);
   };
 
   const handleSearchItem = (item: { id: string; title: string }) => {

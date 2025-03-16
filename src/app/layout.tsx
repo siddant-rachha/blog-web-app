@@ -38,8 +38,8 @@ export default function RootLayout({
                     margin: 'auto',
                   }}
                 >
-                  {children}
                   <ToastNotify />
+                  {children}
                   <Spinner />
                 </Box>
               </LayoutWithNav>

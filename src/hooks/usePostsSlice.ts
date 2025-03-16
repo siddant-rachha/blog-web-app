@@ -4,12 +4,16 @@ import { getPostsService } from '@/apiService/getPostsService/getPostsService';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
 import { PostType } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
+import emptyImg from '@/assets/empty-img.jpg';
+import { useToast } from './useToast';
 
 export const usePostsSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {
     actions: { setRootLoading },
   } = useCommonSlice();
+
+  const { successNotify, errorNotify } = useToast();
 
   const allPosts = useSelector(
     (state: GlobalRootState) => state.postsSlice.allPosts
@@ -22,6 +26,9 @@ export const usePostsSlice = () => {
       const posts: PostType[] =
         res && res.posts
           ? res.posts.map((post) => {
+              if (!post.imageUrl || post.imageUrl === '#') {
+                post.imageUrl = emptyImg.src;
+              }
               return {
                 id: post.id,
                 title: post.title,
@@ -35,8 +42,11 @@ export const usePostsSlice = () => {
             })
           : [];
       dispatch(postsSliceActions.setAllPosts(posts));
-    } catch (e) {
-      console.log(e);
+      successNotify('Posts fetched');
+    } catch (error) {
+      console.error(error);
+      errorNotify('Posts fetch failed');
+      throw error;
     } finally {
       setRootLoading(false);
     }

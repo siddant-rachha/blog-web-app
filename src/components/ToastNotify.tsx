@@ -1,8 +1,14 @@
-import { ToastContainer, Zoom } from 'react-toastify';
+import { Slide, ToastContainer } from 'react-toastify';
 
 export const ToastNotify = () => {
   return (
     <ToastContainer
+      style={{
+        position: 'fixed',
+        width: '80%',
+        marginLeft: 'auto',
+        marginTop: '4rem',
+      }}
       position="top-right"
       autoClose={2000}
       hideProgressBar={false}
@@ -13,7 +19,7 @@ export const ToastNotify = () => {
       draggable
       pauseOnHover
       theme="light"
-      transition={Zoom}
+      transition={Slide}
     />
   );
 };

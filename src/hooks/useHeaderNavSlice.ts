@@ -52,7 +52,6 @@ export const useHeaderNavSlice = () => {
       return;
     }
     try {
-      setSearchLoading(true);
       const res = await searchPostsService({ query });
       const searchItemsObj = res?.posts?.map((post) => {
         return {
@@ -61,10 +60,9 @@ export const useHeaderNavSlice = () => {
         };
       });
       dispatch(headerNavSliceActions.setSearchItems(searchItemsObj || []));
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setSearchLoading(false);
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   };
 
@@ -75,6 +73,7 @@ export const useHeaderNavSlice = () => {
       setAvatarItemsAsLogin,
       setAvatarItemsAsLogout,
       handleSearchPosts,
+      setSearchLoading,
     },
   };
 };

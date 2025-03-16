@@ -19,5 +19,6 @@ export const getPostsService = async (id?: string) => {
     return response;
   } catch (error) {
     console.error('Error fetching data:', error);
+    throw error;
   }
 };
