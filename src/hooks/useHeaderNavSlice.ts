@@ -4,6 +4,8 @@ import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { headerNavSliceActions } from '@/globalState/stateSlices/headerNavSlice/headerNavSlice';
 import { searchPostsService } from '@/apiService/searchPostsService/searchPostsService';
+import emptyImg from '@/assets/no-img.png';
+import { getLowResCloudinaryImg } from '@/utils/getLowResCloudinaryImg/getLowResCloudinaryImg';
 
 export const useHeaderNavSlice = () => {
   const router = useRouter();
@@ -57,9 +59,13 @@ export const useHeaderNavSlice = () => {
         return {
           id: post.id,
           title: post.title,
+          author: post.author,
+          desc: post.desc,
+          imgUrl: getLowResCloudinaryImg(post.imageUrl, 50) || emptyImg.src,
         };
       });
       dispatch(headerNavSliceActions.setSearchItems(searchItemsObj || []));
+      return searchItemsObj;
     } catch (error) {
       console.error(error);
       throw error;

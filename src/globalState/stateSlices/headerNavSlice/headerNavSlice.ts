@@ -5,6 +5,9 @@ import { sliceNames } from '@/globalState/sliceNames';
 type SearchItemType = {
   id: string;
   title: string;
+  author: string;
+  desc: string;
+  imgUrl: string;
 }[];
 
 export const headerNavSlice = createSlice({
@@ -23,10 +26,7 @@ export const headerNavSlice = createSlice({
     setAvatarItems: (state, action: PayloadAction<AvatarItem[]>) => {
       state.avatarItems = action.payload;
     },
-    setSearchItems: (
-      state,
-      action: PayloadAction<{ id: string; title: string }[]>
-    ) => {
+    setSearchItems: (state, action: PayloadAction<SearchItemType>) => {
       state.searchItems = action.payload;
     },
     setSearchLoading: (state, action: PayloadAction<boolean>) => {

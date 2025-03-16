@@ -24,9 +24,10 @@ export async function POST(req: NextRequest) {
     const posts = postsSnapshot.docs.map((doc) => ({
       id: doc.id,
       title: doc.data().title,
+      desc: doc.data().desc.slice(0, 100),
+      author: doc.data().name,
+      imageUrl: doc.data().imageUrl,
     }));
-
-    console.log(posts);
 
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {

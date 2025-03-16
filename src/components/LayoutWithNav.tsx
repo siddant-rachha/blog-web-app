@@ -6,8 +6,9 @@ import { AvatarItem, NavItem } from '@/constants/globalConstants';
 import { AuthModal } from './AuthModal';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
+import { useToast } from '@/hooks/useToast';
 
 export default function LayoutWithNav({
   children,
@@ -23,6 +24,10 @@ export default function LayoutWithNav({
     actions: { authSignOut, setShowAuthModal },
   } = useAuthSlice();
 
+  const { errorNotify } = useToast();
+
+  const [noResults, setNoResults] = useState(false);
+
   const handleNavItem = (navItem: string) => {
     changeNav(navItem as NavItem);
   };
@@ -30,13 +35,21 @@ export default function LayoutWithNav({
   // Debounced search function (waits 1000ms before triggering the search)
   const debouncedSearch = useCallback(
     debounce(async (item: string) => {
-      await handleSearchPosts(item);
-      setSearchLoading(false);
+      try {
+        const res = await handleSearchPosts(item);
+        if (res?.length === 0) setNoResults(true);
+      } catch (error) {
+        errorNotify('Search failed');
+        throw error;
+      } finally {
+        setSearchLoading(false);
+      }
     }, 1000),
     [handleSearchPosts]
   );
 
   const handleSearchInput = (item: string) => {
+    setNoResults(false);
     if (item.length >= 3) setSearchLoading(true);
     debouncedSearch(item);
   };
@@ -63,6 +76,7 @@ export default function LayoutWithNav({
       navItems={navItems}
       navActive={navActive}
       searchItems={searchItems}
+      noResults={noResults}
       searchItemLoading={searchLoading}
       handleNavItem={handleNavItem}
       handleAvatarItem={handleAvatarItem}

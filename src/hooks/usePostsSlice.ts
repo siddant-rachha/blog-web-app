@@ -4,7 +4,7 @@ import { getPostsService } from '@/apiService/getPostsService/getPostsService';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
 import { PostType } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
-import emptyImg from '@/assets/empty-img.jpg';
+import emptyImg from '@/assets/no-img.png';
 import { useToast } from './useToast';
 
 export const usePostsSlice = () => {
@@ -26,9 +26,6 @@ export const usePostsSlice = () => {
       const posts: PostType[] =
         res && res.posts
           ? res.posts.map((post) => {
-              if (!post.imageUrl || post.imageUrl === '#') {
-                post.imageUrl = emptyImg.src;
-              }
               return {
                 id: post.id,
                 title: post.title,
@@ -36,7 +33,7 @@ export const usePostsSlice = () => {
                 avatarSrc: '.',
                 date: '12 Mar 2025',
                 desc: post.desc,
-                imgSrc: post.imageUrl,
+                imgSrc: post.imageUrl || emptyImg.src,
                 writePermission: false,
               };
             })

@@ -6,6 +6,9 @@ interface AddPostResponse {
     | {
         id: string;
         title: string;
+        desc: string;
+        author: string;
+        imageUrl: string;
       }[]
     | null;
   message: string;

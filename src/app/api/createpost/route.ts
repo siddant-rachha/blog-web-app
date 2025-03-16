@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 206 });
     }
 
-    let imageUrl = '#';
+    let imageUrl = '';
 
     if (imageFile) {
       // Convert file to buffer
