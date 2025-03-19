@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read # Required to clone the repository
+  pull-requests: write # to modify PRs or add comments
+
 jobs:
   build:
     runs-on: ubuntu-latest
