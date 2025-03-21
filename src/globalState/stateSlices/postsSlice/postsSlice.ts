@@ -5,11 +5,15 @@ import { PostType } from '@/types/types';
 export const postsSlice = createSlice({
   name: sliceNames.postsSlice,
   initialState: {
-    allPosts: [] as PostType[],
+    allPosts: [] as PostType[] | [],
+    editPost: {} as PostType,
   },
   reducers: {
     setAllPosts: (state, action: PayloadAction<PostType[]>) => {
       state.allPosts = action.payload;
+    },
+    setEditPost: (state, action: PayloadAction<PostType>) => {
+      state.editPost = action.payload;
     },
   },
 });
