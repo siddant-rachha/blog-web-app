@@ -7,6 +7,7 @@ const authSlice = createSlice({
   initialState: {
     showAuthModal: false,
     userDetails: null as UserDetails,
+    initialAuthComplete: false,
   },
   reducers: {
     setShowAuthModal: (state, action: PayloadAction<boolean>) => {
@@ -14,6 +15,9 @@ const authSlice = createSlice({
     },
     setUserDetails: (state, action: PayloadAction<UserDetails | null>) => {
       state.userDetails = action.payload;
+    },
+    setInitialAuthComplete: (state) => {
+      state.initialAuthComplete = true;
     },
   },
 });

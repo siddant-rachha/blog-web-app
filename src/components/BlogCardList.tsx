@@ -1,5 +1,6 @@
 'use client';
 
+import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useCommonSlice } from '@/hooks/useCommonSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
@@ -16,6 +17,10 @@ export const BlogCardList = () => {
   const {
     selectors: { rootLoading },
   } = useCommonSlice();
+
+  const {
+    selectors: { userDetails, initialAuthComplete },
+  } = useAuthSlice();
 
   const [text, setText] = useState('');
 
@@ -49,11 +54,9 @@ export const BlogCardList = () => {
     [allPosts]
   );
 
-  console.log(updatedAllPosts, 'updatedAllPosts');
-
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (initialAuthComplete) fetchPosts();
+  }, [userDetails]);
 
   return (
     <>

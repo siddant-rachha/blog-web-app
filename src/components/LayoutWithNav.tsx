@@ -37,7 +37,7 @@ export default function LayoutWithNav({
     debounce(async (item: string) => {
       try {
         const res = await handleSearchPosts(item);
-        if (res?.length === 0) setNoResults(true);
+        if (!res?.length) setNoResults(true);
       } catch (error) {
         errorNotify('Search failed');
         throw error;
