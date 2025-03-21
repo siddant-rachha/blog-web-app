@@ -8,21 +8,21 @@ import {
 } from '@/firebase/firebaseClient';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
-import { usePostsSlice } from '@/hooks/usePostsSlice';
 
 export const AuthModal = () => {
   const {
-    actions: { setShowAuthModal, setUserDetails, authSignIn },
+    actions: {
+      setShowAuthModal,
+      setUserDetails,
+      authSignIn,
+      setInitialAuthComplete,
+    },
     selectors: { showAuthModal },
   } = useAuthSlice();
 
   const {
     actions: { setAvatarItemsAsLogin, setAvatarItemsAsLogout },
   } = useHeaderNavSlice();
-
-  const {
-    actions: { getAllPosts },
-  } = usePostsSlice();
 
   useEffect(() => {
     // when first time application loads
@@ -43,7 +43,7 @@ export const AuthModal = () => {
         setUserDetails(null);
         setAvatarItemsAsLogout();
       }
-      getAllPosts();
+      setInitialAuthComplete();
     });
 
     return () => unsubscribe();

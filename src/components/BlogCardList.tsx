@@ -1,21 +1,29 @@
 'use client';
 
+import { Routes } from '@/constants/globalConstants';
+import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useCommonSlice } from '@/hooks/useCommonSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 import { Typography } from '@mui/material';
 import { BlogList } from '@siddant-rachha/blog-components';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 export const BlogCardList = () => {
+  const router = useRouter();
   const {
-    actions: { getAllPosts },
+    actions: { getAllPosts, setEditPost },
     selectors: { allPosts },
   } = usePostsSlice();
 
   const {
     selectors: { rootLoading },
   } = useCommonSlice();
+
+  const {
+    selectors: { userDetails, initialAuthComplete },
+  } = useAuthSlice();
 
   const [text, setText] = useState('');
 
@@ -49,11 +57,19 @@ export const BlogCardList = () => {
     [allPosts]
   );
 
-  console.log(updatedAllPosts, 'updatedAllPosts');
+  const handleCardAction = ({ id, action }: { id: string; action: string }) => {
+    if (action === 'edit') {
+      const post = allPosts.find((post) => post.id === id);
+      if (post) {
+        setEditPost(post);
+        router.push(Routes['Create Post']);
+      }
+    }
+  };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (initialAuthComplete) fetchPosts();
+  }, [userDetails, initialAuthComplete]);
 
   return (
     <>
@@ -65,7 +81,7 @@ export const BlogCardList = () => {
         blogFilter={['Older', 'Newest']}
         blogPerPage="3"
         paginationFilter={['3', '6', '9']}
-        handleCardAction={() => {}}
+        handleCardAction={handleCardAction}
         handleFilterSelect={() => {}}
       />
     </>

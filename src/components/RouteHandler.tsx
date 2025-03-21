@@ -17,7 +17,7 @@ export const RouteHandler = ({ children }: { children: React.ReactNode }) => {
     if (activeNav) {
       changeNav(activeNav);
     }
-  }, []);
+  }, [pathname]);
 
   return <>{children}</>;
 };

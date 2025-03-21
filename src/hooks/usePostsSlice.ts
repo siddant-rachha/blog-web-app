@@ -5,6 +5,7 @@ import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSli
 import { useCommonSlice } from './useCommonSlice';
 import emptyImg from '@/assets/no-img.png';
 import { useToast } from './useToast';
+import { PostType } from '@/types/types';
 
 export const usePostsSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,6 +17,10 @@ export const usePostsSlice = () => {
 
   const allPosts = useSelector(
     (state: GlobalRootState) => state.postsSlice.allPosts
+  );
+
+  const editPost = useSelector(
+    (state: GlobalRootState) => state.postsSlice.editPost
   );
 
   const getAllPosts = async () => {
@@ -49,10 +54,15 @@ export const usePostsSlice = () => {
     }
   };
 
+  const setEditPost = (post: PostType) => {
+    dispatch(postsSliceActions.setEditPost(post));
+  };
+
   return {
-    selectors: { allPosts },
+    selectors: { allPosts, editPost },
     actions: {
       getAllPosts,
+      setEditPost,
     },
   };
 };

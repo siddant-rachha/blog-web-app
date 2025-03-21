@@ -31,12 +31,20 @@ export const useAuthSlice = () => {
     (state: GlobalRootState) => state.authSlice.userDetails
   );
 
+  const initialAuthComplete = useSelector(
+    (state: GlobalRootState) => state.authSlice.initialAuthComplete
+  );
+
   // actions
   const setShowAuthModal = (bool: boolean) => {
     dispatch(authSliceActions.setShowAuthModal(bool));
   };
   const setUserDetails = (user: UserDetails | null) => {
     dispatch(authSliceActions.setUserDetails(user));
+  };
+
+  const setInitialAuthComplete = () => {
+    dispatch(authSliceActions.setInitialAuthComplete());
   };
 
   const authSignOut = async () => {
@@ -74,12 +82,13 @@ export const useAuthSlice = () => {
   };
 
   return {
-    selectors: { userDetails, showAuthModal },
+    selectors: { userDetails, showAuthModal, initialAuthComplete },
     actions: {
       setShowAuthModal,
       setUserDetails,
       authSignOut,
       authSignIn,
+      setInitialAuthComplete,
     },
   };
 };
