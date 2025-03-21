@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
-import { getPostsService } from '@/apiService/getPostsService/getPostsService';
+import { getAllPostsService } from '@/apiService/getPostsService/getPostsService';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
-import { PostType } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
 import emptyImg from '@/assets/no-img.png';
 import { useToast } from './useToast';
@@ -22,19 +21,20 @@ export const usePostsSlice = () => {
   const getAllPosts = async () => {
     try {
       setRootLoading(true);
-      const res = await getPostsService();
-      const posts: PostType[] =
-        res && res.posts
+      const res = await getAllPostsService();
+
+      const posts =
+        res.posts && res.posts.length
           ? res.posts.map((post) => {
               return {
                 id: post.id,
                 title: post.title,
-                author: post.name,
-                avatarSrc: '.',
-                date: '12 Mar 2025',
+                author: post.author,
+                authorPic: post.authorPic || '.',
+                createdAt: post.createdAt,
                 desc: post.desc,
-                imgSrc: post.imageUrl || emptyImg.src,
-                writePermission: false,
+                imageUrl: post.imageUrl || emptyImg.src,
+                writePermission: post.writePermission,
               };
             })
           : [];

@@ -61,7 +61,9 @@ export const useHeaderNavSlice = () => {
           title: post.title,
           author: post.author,
           desc: post.desc,
-          imgUrl: getLowResCloudinaryImg(post.imageUrl, 50) || emptyImg.src,
+          imageUrl: getLowResCloudinaryImg(post.imageUrl, 50) || emptyImg.src,
+          authorPic: post.authorPic || '.',
+          createdAt: post.createdAt,
         };
       });
       dispatch(headerNavSliceActions.setSearchItems(searchItemsObj || []));

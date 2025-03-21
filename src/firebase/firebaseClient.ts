@@ -7,6 +7,7 @@ import {
   signInWithPopup as firebaseSignIn,
   signOut as firebaseSignOut,
 } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_APIKEY,
@@ -33,5 +34,6 @@ export {
   authChangeEventListener,
   firebaseSignOut,
   GoogleAuthFirebase,
+  Timestamp as FirebaseTimestamp,
 };
-export type { User as FirebaseUser };
+export type { User as FirebaseUser, Timestamp as FirebaseTimestampType };

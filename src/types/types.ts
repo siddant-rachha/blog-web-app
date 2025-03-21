@@ -1,3 +1,5 @@
+import { FirebaseTimestampType } from '@/firebase/firebaseClient';
+
 export type UserDetails = {
   uid: string;
   displayName: string;
@@ -9,16 +11,25 @@ export type PostType = {
   id: string;
   title: string;
   desc: string;
-  imgSrc: string;
-  avatarSrc: string;
   author: string;
+  imageUrl: string;
+  authorPic: string;
+  createdAt: FirebaseTimestampType;
   writePermission: boolean;
-  date: string;
+};
+
+export type SearchedPostType = {
+  id: string;
+  title: string;
+  desc: string;
+  author: string;
+  imageUrl: string;
+  authorPic: string;
+  createdAt: FirebaseTimestampType;
 };
 
 export type AddPostFormType = {
   title: string;
   desc: string;
-  name: string;
   imageFile: File | null;
 };

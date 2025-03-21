@@ -8,6 +8,7 @@ const endpoints = {
   addPostEndpoint: '/api/createpost',
   searchPostsEndpoint: '/api/searchposts',
   getPosts: '/api/getposts',
+  getPostById: (id: string) => `/api/getposts?id=${id}`,
 };
 
 export default endpoints;

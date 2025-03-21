@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { firebaseAdmin, firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import {
+  firebaseAdmin,
+  firebaseAdminAuth,
+  firebaseAdminDb,
+} from '@/firebase/firebaseAdmin';
 import { generateSearchKeywords } from '../api_utils_only/utils';
 import { v2 as cloudinary } from 'cloudinary';
 
@@ -12,11 +16,30 @@ cloudinary.config({
 // Handle POST requests
 export async function POST(req: NextRequest) {
   try {
+    let uid = '';
+    let name = 'Anonymous';
+    let picture = '';
+    let email = '';
+    const authorizationHeader = req.headers.get('authorization')?.split(' ')[1];
+
+    if (authorizationHeader) {
+      try {
+        const decodedToken =
+          await firebaseAdminAuth.verifyIdToken(authorizationHeader);
+        uid = decodedToken.uid;
+        name = decodedToken.name || 'Anonymous';
+        picture = decodedToken.picture || '';
+        email = decodedToken.email || '';
+      } catch (error) {
+        console.log(error);
+        return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
+      }
+    }
+
     // Parse multipart form-data
     const formData = await req.formData();
     const title = formData.get('title') as string;
     const desc = formData.get('desc') as string;
-    const name = formData.get('name') as string;
     const imageFile = formData.get('image') as File;
 
     if (!title || !desc || !name) {
@@ -62,9 +85,12 @@ export async function POST(req: NextRequest) {
     const searchKeywords = generateSearchKeywords(title);
 
     const postRef = await firebaseAdminDb.collection('posts').add({
+      uid,
+      email,
+      authorPic: picture,
       title,
       desc,
-      name,
+      author: name,
       imageUrl,
       searchKeywords,
       createdAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
@@ -82,3 +108,50 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+// -----------------------
+
+// STRUCTURE OF POST SAVED IN FIREBASE DB
+// {
+//   uid: string;
+//   email: string;
+//   authorPic: string;
+//   title: string;
+//   desc: string;
+//   author: string;
+//   imageUrl: string;
+//   searchKeywords: string[];
+//   createdAt: Timestamp;
+// }
+
+// -------------------------
+
+// DIFFERENT RETURNS OF API CALLS
+// {
+//   message: 'POST_CREATED';
+//   postId: string;
+//   error: '';
+//   status: 200;
+// }
+
+// {
+//   error: 'UNAUTHORIZED';
+//   status: 401;
+// }
+
+// {
+//   error: 'Internal Server Error';
+//   status: 500;
+// }
+
+// {
+//   error: 'TITLE_EXCEED';
+//   status: 206;
+// }
+
+// {
+//   error: 'MISSING_FIELDS';
+//   status: 206;
+// }
+
+// -------------------------

@@ -8,6 +8,7 @@ import {
 } from '@/firebase/firebaseClient';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
+import { usePostsSlice } from '@/hooks/usePostsSlice';
 
 export const AuthModal = () => {
   const {
@@ -19,9 +20,13 @@ export const AuthModal = () => {
     actions: { setAvatarItemsAsLogin, setAvatarItemsAsLogout },
   } = useHeaderNavSlice();
 
+  const {
+    actions: { getAllPosts },
+  } = usePostsSlice();
+
   useEffect(() => {
     // when first time application loads
-    const unsubscribe = authChangeEventListener(firebaseAuth, (user) => {
+    const unsubscribe = authChangeEventListener(firebaseAuth, async (user) => {
       if (user) {
         const userDetails = {
           uid: user.uid,
@@ -29,12 +34,16 @@ export const AuthModal = () => {
           email: user.email || '',
           photoURL: user.photoURL || '',
         };
+        const token = await user.getIdToken();
+        localStorage.setItem('token', token);
         setUserDetails(userDetails);
         setAvatarItemsAsLogin();
       } else {
+        localStorage.removeItem('token');
         setUserDetails(null);
         setAvatarItemsAsLogout();
       }
+      getAllPosts();
     });
 
     return () => unsubscribe();

@@ -6,7 +6,7 @@ import { AvatarItem, NavItem } from '@/constants/globalConstants';
 import { AuthModal } from './AuthModal';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { useToast } from '@/hooks/useToast';
 
@@ -67,6 +67,17 @@ export default function LayoutWithNav({
     }
   };
 
+  const updatedSearchItems = useMemo(
+    () =>
+      searchItems.map((searchItem) => {
+        return {
+          ...searchItem,
+          imgUrl: searchItem.imageUrl,
+        };
+      }),
+    [searchItems]
+  );
+
   return (
     <BlogNavContainer
       logoSrc={base64Logo}
@@ -75,7 +86,7 @@ export default function LayoutWithNav({
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
-      searchItems={searchItems}
+      searchItems={updatedSearchItems}
       noResults={noResults}
       searchItemLoading={searchLoading}
       handleNavItem={handleNavItem}

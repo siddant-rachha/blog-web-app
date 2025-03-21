@@ -1,21 +1,32 @@
 import { get } from '@/utils/apiClient';
 import endpoints from '../endpoints';
+import { PostType } from '@/types/types';
 
-type PostsResponse = {
-  posts: {
-    id: string;
-    title: string;
-    desc: string;
-    name: string;
-    imageUrl: string;
-  }[];
-  message: string;
+type AllPostsResponse = {
+  posts: PostType[] | undefined;
+  message: string | undefined;
+  error: string | undefined;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getPostsService = async (id?: string) => {
+type SinglePostResponse = {
+  post: PostType | undefined;
+  message: string | undefined;
+  error: string | undefined;
+};
+
+export const getAllPostsService = async () => {
   try {
-    const response = await get<PostsResponse>(endpoints.getPosts);
+    const response = await get<AllPostsResponse>(endpoints.getPosts);
+    return response;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const getPostsByIdService = async (id: string) => {
+  try {
+    const response = await get<SinglePostResponse>(endpoints.getPostById(id));
     return response;
   } catch (error) {
     console.error('Error fetching data:', error);

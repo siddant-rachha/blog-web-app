@@ -21,13 +21,25 @@ export async function POST(req: NextRequest) {
       .where('searchKeywords', 'array-contains', query.toLowerCase())
       .get();
 
-    const posts = postsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      title: doc.data().title,
-      desc: doc.data().desc.slice(0, 100),
-      author: doc.data().name,
-      imageUrl: doc.data().imageUrl,
-    }));
+    let posts = [];
+
+    posts = postsSnapshot.docs.map((doc) => {
+      const postData = doc.data();
+
+      return {
+        id: doc.id,
+        title: postData.title,
+        desc: postData.desc.slice(0, 100),
+        author: postData.author,
+        imageUrl: postData.imageUrl,
+        authorPic: postData?.authorPic,
+        createdAt: postData?.createdAt,
+      };
+    });
+
+    if (posts.length === 0) {
+      return NextResponse.json({ error: 'NO_POSTS_FOUND' }, { status: 206 });
+    }
 
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {
@@ -38,3 +50,35 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+// DIFFERENT RETURNS OF API CALLS
+// {
+//   posts: [
+//     {
+//       id: string;
+//       title: string;
+//       desc: string;
+//       author: string;
+//       imageUrl: string;
+//       authorPic: string;
+//       createdAt: Timestamp;
+//     },
+//     ...
+//   ],
+//   status: 200;
+// }
+
+// {
+//   error: 'NO_POSTS_FOUND';
+//   status: 206;
+// }
+
+// {
+//   error: 'MINIMUM_QUERY_REQUIRED';
+//   status: 206;
+// }
+
+// {
+//   error: 'Internal Server Error';
+//   status: 500;
+// }

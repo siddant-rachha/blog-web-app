@@ -1,14 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AvatarItem, NavItem } from '@/constants/globalConstants';
 import { sliceNames } from '@/globalState/sliceNames';
-
-type SearchItemType = {
-  id: string;
-  title: string;
-  author: string;
-  desc: string;
-  imgUrl: string;
-}[];
+import { SearchedPostType } from '@/types/types';
 
 export const headerNavSlice = createSlice({
   name: sliceNames.headerNavSlice,
@@ -16,7 +9,7 @@ export const headerNavSlice = createSlice({
     navItems: [NavItem.HOME, NavItem.CREATE_POST, NavItem.MY_POST],
     navActive: NavItem.HOME,
     avatarItems: [AvatarItem.LOGIN],
-    searchItems: [] as SearchItemType,
+    searchItems: [] as SearchedPostType[],
     searchLoading: false,
   },
   reducers: {
@@ -26,7 +19,7 @@ export const headerNavSlice = createSlice({
     setAvatarItems: (state, action: PayloadAction<AvatarItem[]>) => {
       state.avatarItems = action.payload;
     },
-    setSearchItems: (state, action: PayloadAction<SearchItemType>) => {
+    setSearchItems: (state, action: PayloadAction<SearchedPostType[]>) => {
       state.searchItems = action.payload;
     },
     setSearchLoading: (state, action: PayloadAction<boolean>) => {

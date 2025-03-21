@@ -1,18 +1,11 @@
 import endpoints from '../endpoints';
 import { post } from '@/utils/apiClient';
+import { SearchedPostType } from '@/types/types';
 
-interface AddPostResponse {
-  posts:
-    | {
-        id: string;
-        title: string;
-        desc: string;
-        author: string;
-        imageUrl: string;
-      }[]
-    | null;
-  message: string;
-  error: string;
+interface SearchPostResponse {
+  posts: SearchedPostType[] | undefined;
+  message: string | undefined;
+  error: string | undefined;
 }
 
 interface SearchPostRequest {
@@ -21,7 +14,7 @@ interface SearchPostRequest {
 
 export const searchPostsService = async (data: SearchPostRequest) => {
   try {
-    const response = await post<SearchPostRequest, AddPostResponse>(
+    const response = await post<SearchPostRequest, SearchPostResponse>(
       endpoints.searchPostsEndpoint,
       data
     );

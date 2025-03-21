@@ -1,16 +1,12 @@
 import { post } from '@/utils/apiClient';
 import endpoints from '../endpoints';
+import { AddPostFormType } from '@/types/types';
 
-interface AddPostRequest {
-  title: string;
-  desc: string;
-  name: string;
-  imageFile: File | null;
-}
+type AddPostRequest = AddPostFormType;
 interface AddPostResponse {
-  message: string;
-  postId: string;
-  error: string;
+  message: string | undefined;
+  postId: string | undefined;
+  error: string | undefined;
 }
 
 export const addPostService = async (formData: AddPostRequest) => {
@@ -18,7 +14,6 @@ export const addPostService = async (formData: AddPostRequest) => {
     const data = new FormData();
     data.append('title', formData.title);
     data.append('desc', formData.desc);
-    data.append('name', formData.name);
     if (formData.imageFile) {
       data.append('image', formData.imageFile);
     }
