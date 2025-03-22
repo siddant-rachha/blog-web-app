@@ -57,7 +57,10 @@ export const CreatePost = () => {
   useEffect(() => {
     return () => {
       // ------ this case is only for strict mode true while development ---------
-      if (nextConfig.reactStrictMode === true) {
+      if (
+        nextConfig.reactStrictMode === true ||
+        process.env.NODE_ENV !== 'production'
+      ) {
         if (firstRenderWithStrictMode === false) {
           setEditPost({} as PostType);
         } else {
@@ -67,7 +70,6 @@ export const CreatePost = () => {
       }
       // ------------------
 
-      // ------ this case is when strict mode is false or while production ---------
       setEditPost({} as PostType);
     };
   }, []);
