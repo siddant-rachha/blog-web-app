@@ -9,6 +9,7 @@ import { Typography } from '@mui/material';
 import { BlogList } from '@siddant-rachha/blog-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import emptyImg from '@/assets/no-img.png';
 
 export const BlogCardList = () => {
   const router = useRouter();
@@ -50,7 +51,7 @@ export const BlogCardList = () => {
         return {
           ...post,
           avatarSrc: post.authorPic,
-          imgSrc: post.imageUrl,
+          imgSrc: post.imageUrl || emptyImg.src,
           date: timestampToString(createdAt._seconds, createdAt._nanoseconds),
         };
       }),

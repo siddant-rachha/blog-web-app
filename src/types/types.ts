@@ -38,5 +38,5 @@ export type UpdatePostFormType = {
   postId: string;
   title: string;
   desc: string;
-  imageFile: File | string | null;
+  image: File | string | null;
 };

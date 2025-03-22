@@ -3,7 +3,6 @@ import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { getAllPostsService } from '@/apiService/getPostsService/getPostsService';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
 import { useCommonSlice } from './useCommonSlice';
-import emptyImg from '@/assets/no-img.png';
 import { useToast } from './useToast';
 import { PostType } from '@/types/types';
 
@@ -35,10 +34,10 @@ export const usePostsSlice = () => {
                 id: post.id,
                 title: post.title,
                 author: post.author,
-                authorPic: post.authorPic || '.',
+                authorPic: post.authorPic || '',
                 createdAt: post.createdAt,
                 desc: post.desc,
-                imageUrl: post.imageUrl || emptyImg.src,
+                imageUrl: post.imageUrl || '',
                 writePermission: post.writePermission,
               };
             })

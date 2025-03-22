@@ -14,8 +14,8 @@ export const updatePostService = async (formData: UpdatePostRequest) => {
     const data = new FormData();
     data.append('title', formData.title);
     data.append('desc', formData.desc);
-    if (formData.imageFile) {
-      data.append('image', formData.imageFile);
+    if (formData.image) {
+      data.append('image', formData.image);
     }
     const response = await post<typeof data, UpdatePostResponse>(
       endpoints.updatePostById(formData.postId),

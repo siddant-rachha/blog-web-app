@@ -4,7 +4,7 @@ import { Routes } from '@/constants/globalConstants';
 import { useAddUpdatePost } from '@/hooks/useAddUpdatePost';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
-import { AddPostFormType, PostType } from '@/types/types';
+import { PostType } from '@/types/types';
 import { Box } from '@mui/material';
 import { BlogForm } from '@siddant-rachha/blog-components';
 import { useRouter } from 'next/navigation';
@@ -28,7 +28,7 @@ export const CreatePost = () => {
   let firstRenderWithStrictMode = true;
 
   const handleFormSubmit = async (formData: {
-    imageFile: File | null | string;
+    image: File | null | string;
     title: string;
     desc: string;
   }) => {
@@ -44,7 +44,10 @@ export const CreatePost = () => {
       }
 
       // if new post
-      await handleFormAddPost(formData as AddPostFormType);
+      await handleFormAddPost({
+        ...formData,
+        imageFile: (formData.image as File) || null,
+      });
       setResetForm(true);
       router.push(Routes['Home']);
     } catch (error) {
@@ -90,6 +93,7 @@ export const CreatePost = () => {
         title={editPost.title || ''}
         desc={editPost.desc || ''}
         resetForm={resetForm}
+        imageUrl={editPost.imageUrl}
       />
     </Box>
   );

@@ -85,7 +85,7 @@ export default function LayoutWithNav({
   return (
     <BlogNavContainer
       logoSrc={base64Logo}
-      avatarSrc={userDetails?.photoURL || '.'}
+      avatarSrc={userDetails?.photoURL || ''}
       avatarName={userDetails?.displayName || 'Anonymous'}
       avatarItems={avatarItems}
       navItems={navItems}

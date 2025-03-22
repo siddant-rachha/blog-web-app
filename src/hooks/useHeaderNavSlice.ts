@@ -62,7 +62,7 @@ export const useHeaderNavSlice = () => {
           author: post.author,
           desc: post.desc,
           imageUrl: getLowResCloudinaryImg(post.imageUrl, 50) || emptyImg.src,
-          authorPic: post.authorPic || '.',
+          authorPic: post.authorPic || '',
           createdAt: post.createdAt,
         };
       });
