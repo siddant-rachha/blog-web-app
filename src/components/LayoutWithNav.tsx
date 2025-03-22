@@ -48,7 +48,7 @@ export default function LayoutWithNav({
       } finally {
         setSearchLoading(false);
       }
-    }, 400),
+    }, 300),
     // do not add dependencies in debounced function
     []
   );
