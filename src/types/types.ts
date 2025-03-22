@@ -33,3 +33,10 @@ export type AddPostFormType = {
   desc: string;
   imageFile: File | null;
 };
+
+export type UpdatePostFormType = {
+  postId: string;
+  title: string;
+  desc: string;
+  imageFile: File | string | null;
+};

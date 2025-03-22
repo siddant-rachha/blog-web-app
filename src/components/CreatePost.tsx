@@ -1,39 +1,50 @@
 'use client';
 
 import { Routes } from '@/constants/globalConstants';
-import { useAddPost } from '@/hooks/useAddPost';
+import { useAddUpdatePost } from '@/hooks/useAddUpdatePost';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
+import { AddPostFormType, PostType } from '@/types/types';
 import { Box } from '@mui/material';
 import { BlogForm } from '@siddant-rachha/blog-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import nextConfig from '../../next.config';
 
 export const CreatePost = () => {
   const router = useRouter();
   const {
     selectors: { userDetails },
   } = useAuthSlice();
-  const { handleFormAddPost } = useAddPost();
+  const { handleFormAddPost, handleFormUpdatePost } = useAddUpdatePost();
 
   const {
     selectors: { editPost },
+    actions: { setEditPost },
   } = usePostsSlice();
 
   const [resetForm, setResetForm] = useState(false);
 
+  let firstRenderWithStrictMode = true;
+
   const handleFormSubmit = async (formData: {
-    imageFile: File | null;
+    imageFile: File | null | string;
     title: string;
     desc: string;
   }) => {
     try {
-      // TODO: Remove after adding edit feature
+      // if edit post
       if (editPost.id) {
-        alert('Feature not available yet');
+        await handleFormUpdatePost({
+          ...formData,
+          postId: editPost.id,
+        });
+        setResetForm(true);
         return;
       }
-      await handleFormAddPost(formData);
+
+      // if new post
+      await handleFormAddPost(formData as AddPostFormType);
       setResetForm(true);
       router.push(Routes['Home']);
     } catch (error) {
@@ -41,6 +52,24 @@ export const CreatePost = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    return () => {
+      // ------ this case is only for strict mode true while development ---------
+      if (nextConfig.reactStrictMode === true) {
+        if (firstRenderWithStrictMode === false) {
+          setEditPost({} as PostType);
+        } else {
+          firstRenderWithStrictMode = false;
+        }
+        return;
+      }
+      // ------------------
+
+      // ------ this case is only for strict mode false or while production ---------
+      setEditPost({} as PostType);
+    };
+  }, []);
 
   useEffect(() => {
     if (resetForm) {

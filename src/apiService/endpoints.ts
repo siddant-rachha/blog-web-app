@@ -9,6 +9,7 @@ const endpoints = {
   searchPostsEndpoint: '/api/searchposts',
   getPosts: '/api/getposts',
   getPostById: (id: string) => `/api/getposts?id=${id}`,
+  updatePostById: (id: string) => `/api/editpost?id=${id}`,
 };
 
 export default endpoints;
