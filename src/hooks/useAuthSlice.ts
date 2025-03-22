@@ -53,7 +53,7 @@ export const useAuthSlice = () => {
       await firebaseSignOut(firebaseAuth);
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogout();
-      successNotify('Sign out successfull');
+      successNotify('Sign out successful');
     } catch (error) {
       console.error(error);
       errorNotify('Sign out failed');
@@ -71,7 +71,7 @@ export const useAuthSlice = () => {
       // user details is set by authChangeEventListener
       setAvatarItemsAsLogin();
       setShowAuthModal(false);
-      successNotify('Sign in successfull');
+      successNotify('Sign in successful');
     } catch (error) {
       console.error(error);
       errorNotify('Sign in failed');

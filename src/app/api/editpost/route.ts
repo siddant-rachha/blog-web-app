@@ -43,26 +43,24 @@ export async function POST(req: NextRequest) {
     let name = 'Anonymous';
     let picture = '';
     let email = '';
-    if (anyOneCanWrite === false) {
-      const authorizationHeader = req.headers
-        .get('authorization')
-        ?.split(' ')[1];
-      if (authorizationHeader) {
-        try {
-          const decodedToken = await decodeToken(authorizationHeader);
-          uid = decodedToken.uid;
-          name = decodedToken.name;
-          picture = decodedToken.picture || '';
-          email = decodedToken.email || '';
-        } catch (error) {
-          console.log(error);
-          return UNAUTHORIZED();
-        }
-      }
-      if (uid !== postData?.uid) {
+
+    const authorizationHeader = req.headers.get('authorization')?.split(' ')[1];
+    if (authorizationHeader) {
+      try {
+        const decodedToken = await decodeToken(authorizationHeader);
+        uid = decodedToken.uid;
+        name = decodedToken.name;
+        picture = decodedToken.picture || '';
+        email = decodedToken.email || '';
+      } catch (error) {
+        console.log(error);
         return UNAUTHORIZED();
       }
     }
+    if (uid !== postData?.uid && anyOneCanWrite === false) {
+      return UNAUTHORIZED();
+    }
+
     // --------------
 
     // (5) ---- Parse multipart form-data ------
