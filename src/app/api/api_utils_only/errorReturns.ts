@@ -23,3 +23,7 @@ export const INTERNAL_SERVER_ERROR = () => {
 export const CLOUDINARY_ERROR = () => {
   return NextResponse.json({ error: 'CLOUDINARY_ERROR' }, { status: 500 });
 };
+
+export const FIREBASE_ERROR = () => {
+  return NextResponse.json({ error: 'FIREBASE_ERROR' }, { status: 500 });
+};

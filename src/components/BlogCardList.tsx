@@ -14,7 +14,7 @@ import emptyImg from '@/assets/no-img.png';
 export const BlogCardList = () => {
   const router = useRouter();
   const {
-    actions: { getAllPosts, setEditPost },
+    actions: { getAllPosts, setEditPost, handleDeletePost },
     selectors: { allPosts },
   } = usePostsSlice();
 
@@ -64,6 +64,12 @@ export const BlogCardList = () => {
       if (post) {
         setEditPost(post);
         router.push(Routes['Create Post']);
+      }
+    }
+    if (action === 'del') {
+      const post = allPosts.find((post) => post.id === id);
+      if (post) {
+        handleDeletePost(post.id);
       }
     }
   };

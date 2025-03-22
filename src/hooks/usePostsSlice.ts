@@ -5,6 +5,7 @@ import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSli
 import { useCommonSlice } from './useCommonSlice';
 import { useToast } from './useToast';
 import { PostType } from '@/types/types';
+import { deletePostService } from '@/apiService/deletePostService/deletePostService';
 
 export const usePostsSlice = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,11 +58,27 @@ export const usePostsSlice = () => {
     dispatch(postsSliceActions.setEditPost(post));
   };
 
+  const handleDeletePost = async (postId: string) => {
+    try {
+      setRootLoading(true);
+      await deletePostService(postId);
+      successNotify('Post deleted');
+      getAllPosts();
+    } catch (error) {
+      console.error(error);
+      errorNotify('Post delete failed');
+      throw error;
+    } finally {
+      setRootLoading(false);
+    }
+  };
+
   return {
     selectors: { allPosts, editPost },
     actions: {
       getAllPosts,
       setEditPost,
+      handleDeletePost,
     },
   };
 };

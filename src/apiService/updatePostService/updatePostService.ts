@@ -24,7 +24,7 @@ export const updatePostService = async (formData: UpdatePostRequest) => {
     );
     return response;
   } catch (error) {
-    console.error('Error adding post:', error);
+    console.error('Error updating post:', error);
     throw error;
   }
 };

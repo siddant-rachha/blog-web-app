@@ -3,6 +3,7 @@ import { firebaseAdmin, firebaseAdminDb } from '@/firebase/firebaseAdmin';
 import { generateSearchKeywords } from '../api_utils_only/utils';
 import {
   CLOUDINARY_ERROR,
+  FIREBASE_ERROR,
   INTERNAL_SERVER_ERROR,
   MISSING_FIELDS,
   POST_NOT_FOUND,
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     const postDoc = await postRef.get();
     const postData = postDoc.data();
     if (!postDoc.exists) {
-      POST_NOT_FOUND();
+      return POST_NOT_FOUND();
     }
     // --------------
 
@@ -55,11 +56,11 @@ export async function POST(req: NextRequest) {
           email = decodedToken.email || '';
         } catch (error) {
           console.log(error);
-          UNAUTHORIZED();
+          return UNAUTHORIZED();
         }
       }
       if (uid !== postData?.uid) {
-        UNAUTHORIZED();
+        return UNAUTHORIZED();
       }
     }
     // --------------
@@ -70,10 +71,10 @@ export async function POST(req: NextRequest) {
     const desc = formData.get('desc') as string;
     const imageFileorUrl = formData.get('image') as File | string;
     if (!title || !desc || !name) {
-      MISSING_FIELDS();
+      return MISSING_FIELDS();
     }
     if (title.length > 50) {
-      TITLE_EXCEED();
+      return TITLE_EXCEED();
     }
 
     // (6) ---- upload image to cloudinary ------
@@ -85,7 +86,7 @@ export async function POST(req: NextRequest) {
           await deleteImgFromCloudinary(postData.imageUrl);
         } catch (error) {
           console.log(error);
-          CLOUDINARY_ERROR();
+          return CLOUDINARY_ERROR();
         }
       }
 
@@ -93,7 +94,7 @@ export async function POST(req: NextRequest) {
         imageUrl = await uploadImgToCloudinary(imageFileorUrl);
       } catch (error) {
         console.log(error);
-        CLOUDINARY_ERROR();
+        return CLOUDINARY_ERROR();
       }
     } else {
       imageUrl = imageFileorUrl;
@@ -104,24 +105,29 @@ export async function POST(req: NextRequest) {
     const searchKeywords = generateSearchKeywords(title);
     // --------------
 
-    await postRef.update({
-      uid,
-      email,
-      authorPic: picture,
-      title,
-      desc,
-      author: name,
-      imageUrl,
-      searchKeywords,
-      createdAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-    });
+    try {
+      await postRef.update({
+        uid,
+        email,
+        authorPic: picture,
+        title,
+        desc,
+        author: name,
+        imageUrl,
+        searchKeywords,
+        createdAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+      });
 
-    return NextResponse.json(
-      { message: 'POST_UPDATED', postId: postRef.id, error: '' },
-      { status: 200 }
-    );
+      return NextResponse.json(
+        { message: 'POST_UPDATED', postId: postRef.id, error: '' },
+        { status: 200 }
+      );
+    } catch (error) {
+      console.error('Error updating post:', error);
+      return FIREBASE_ERROR();
+    }
   } catch (error) {
     console.error('Error creating post:', error);
-    INTERNAL_SERVER_ERROR();
+    return INTERNAL_SERVER_ERROR();
   }
 }
