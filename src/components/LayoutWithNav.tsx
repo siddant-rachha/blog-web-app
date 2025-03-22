@@ -48,14 +48,17 @@ export default function LayoutWithNav({
       } finally {
         setSearchLoading(false);
       }
-    }, 1000),
-    [handleSearchPosts]
+    }, 400),
+    // do not add dependencies in debounced function
+    []
   );
 
   const handleSearchInput = (item: string) => {
     setNoResults(false);
-    if (item.length >= 3) setSearchLoading(true);
-    debouncedSearch(item);
+    if (item.length >= 3) {
+      setSearchLoading(true);
+      debouncedSearch(item);
+    }
   };
 
   const handleSearchItem = (item: { id: string; title: string }) => {

@@ -39,15 +39,13 @@ export const CreatePost = () => {
           ...formData,
           postId: editPost.id,
         });
-        setResetForm(true);
-        return;
+      } else {
+        // if new post
+        await handleFormAddPost({
+          ...formData,
+          imageFile: (formData.image as File) || null,
+        });
       }
-
-      // if new post
-      await handleFormAddPost({
-        ...formData,
-        imageFile: (formData.image as File) || null,
-      });
       setResetForm(true);
       router.push(Routes['Home']);
     } catch (error) {
@@ -69,7 +67,7 @@ export const CreatePost = () => {
       }
       // ------------------
 
-      // ------ this case is only for strict mode false or while production ---------
+      // ------ this case is when strict mode is false or while production ---------
       setEditPost({} as PostType);
     };
   }, []);
