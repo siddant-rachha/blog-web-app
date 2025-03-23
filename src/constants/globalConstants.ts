@@ -14,4 +14,5 @@ export const Routes = {
   [NavItem.CREATE_POST]: '/createpost',
   [NavItem.MY_POST]: '/myposts',
   'Read Post': '/post',
+  'Edit Post': '/editpost',
 } as const;

@@ -7,12 +7,12 @@ import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
 import { Box } from '@mui/material';
 import { BlogForm } from '@siddant-rachha/blog-components';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import nextConfig from '../../next.config';
 
 export const CreatePost = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const {
     selectors: { userDetails },
   } = useAuthSlice();
@@ -24,8 +24,6 @@ export const CreatePost = () => {
   } = usePostsSlice();
 
   const [resetForm, setResetForm] = useState(false);
-
-  let firstRenderWithStrictMode = true;
 
   const handleFormSubmit = async (formData: {
     image: File | null | string;
@@ -55,30 +53,17 @@ export const CreatePost = () => {
   };
 
   useEffect(() => {
-    return () => {
-      // ------ this case is only for strict mode true while development ---------
-      if (
-        nextConfig.reactStrictMode === true ||
-        process.env.NODE_ENV !== 'production'
-      ) {
-        if (firstRenderWithStrictMode === false) {
-          setEditPost({} as PostType);
-        } else {
-          firstRenderWithStrictMode = false;
-        }
-        return;
-      }
-      // ------------------
-
-      setEditPost({} as PostType);
-    };
-  }, []);
-
-  useEffect(() => {
     if (resetForm) {
       setResetForm(false);
     }
   }, [resetForm]);
+
+  useEffect(() => {
+    if (pathname !== Routes['Edit Post']) {
+      setEditPost({} as PostType);
+      setResetForm(true);
+    }
+  }, [pathname]);
 
   return (
     <Box

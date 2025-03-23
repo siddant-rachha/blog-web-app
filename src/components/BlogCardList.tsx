@@ -63,7 +63,7 @@ export const BlogCardList = () => {
       const post = allPosts.find((post) => post.id === id);
       if (post) {
         setEditPost(post);
-        router.push(Routes['Create Post']);
+        router.push(Routes['Edit Post']);
       }
     }
     if (action === 'del') {
