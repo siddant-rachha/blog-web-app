@@ -1,3 +1,5 @@
+'use client';
+
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 import { BlogPage } from '@siddant-rachha/blog-components';
