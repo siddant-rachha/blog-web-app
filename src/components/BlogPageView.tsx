@@ -2,12 +2,13 @@ import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 import { BlogPage } from '@siddant-rachha/blog-components';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Typography } from '@mui/material';
+import { usePathname } from 'next/navigation';
 
 export default function BlogPageView() {
-  const searchParams = useSearchParams();
-  const postId = searchParams.get('id');
+  const pathname = usePathname();
+  const [postId, setPostId] = useState<string | null>(null);
+
   const {
     selectors: { readPost },
     actions: { getPostById },
@@ -25,10 +26,17 @@ export default function BlogPageView() {
   };
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const searchParams = new URLSearchParams(window.location.search);
+      setPostId(searchParams.get('id'));
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     if (!readPost.id && postId) {
       handleGetPostById(postId);
     }
-  }, []);
+  }, [postId]);
 
   if (postNotFound) {
     return <Typography variant="h6">Post not found</Typography>;
