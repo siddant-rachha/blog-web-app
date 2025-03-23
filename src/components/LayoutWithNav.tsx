@@ -81,7 +81,7 @@ export default function LayoutWithNav({
     }
   };
 
-  const mappedSearchItems = useMemo(
+  const updatedSearchItems = useMemo(
     () =>
       searchItems.map((searchItem) => {
         return {
@@ -100,7 +100,7 @@ export default function LayoutWithNav({
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
-      searchItems={mappedSearchItems}
+      searchItems={updatedSearchItems}
       noResults={noResults}
       searchItemLoading={searchLoading}
       handleNavItem={handleNavItem}
