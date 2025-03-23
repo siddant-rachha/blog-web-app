@@ -14,7 +14,7 @@ import emptyImg from '@/assets/no-img.png';
 export const BlogCardList = () => {
   const router = useRouter();
   const {
-    actions: { getAllPosts, setEditPost, handleDeletePost },
+    actions: { getAllPosts, setEditPost, handleDeletePost, setReadPost },
     selectors: { allPosts },
   } = usePostsSlice();
 
@@ -40,7 +40,7 @@ export const BlogCardList = () => {
     }
   };
 
-  const updatedAllPosts = useMemo(
+  const mappedAllPosts = useMemo(
     () =>
       allPosts.map((post) => {
         // fix the type
@@ -72,6 +72,13 @@ export const BlogCardList = () => {
         handleDeletePost(post.id);
       }
     }
+    if (action === 'read') {
+      const post = allPosts.find((post) => post.id === id);
+      if (post) {
+        setReadPost(post);
+        router.push(`${Routes['Read Post']}?id=${post.id}`);
+      }
+    }
   };
 
   useEffect(() => {
@@ -84,7 +91,7 @@ export const BlogCardList = () => {
         <Typography variant="h6">{text}</Typography>
       )}
       <BlogList
-        blogPosts={updatedAllPosts}
+        blogPosts={mappedAllPosts}
         blogFilter={['Older', 'Newest']}
         blogPerPage="3"
         paginationFilter={['3', '6', '9']}

@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
       const postDoc = await postRef.get();
 
       if (!postDoc.exists) {
-        return NextResponse.json({ error: 'POST_NOT_FOUND' }, { status: 206 });
+        return NextResponse.json({ error: 'POST_NOT_FOUND' }, { status: 400 });
       }
 
       const postData = postDoc.data();
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     if (postsSnapshot.empty) {
       return NextResponse.json(
         { posts: [], error: 'POST_NOT_FOUND' },
-        { status: 206 }
+        { status: 400 }
       );
     }
 

@@ -14,8 +14,14 @@ export const RouteHandler = ({ children }: { children: React.ReactNode }) => {
       (key) => Routes[key as NavItem] === pathname
     ) as NavItem | undefined;
 
-    if (activeNav) {
+    if (
+      activeNav === NavItem.HOME ||
+      activeNav === NavItem.CREATE_POST ||
+      activeNav === NavItem.MY_POST
+    ) {
       changeNav(activeNav);
+    } else {
+      changeNav('' as NavItem);
     }
   }, [pathname]);
 

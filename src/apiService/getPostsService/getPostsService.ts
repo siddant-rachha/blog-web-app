@@ -24,7 +24,7 @@ export const getAllPostsService = async () => {
   }
 };
 
-export const getPostsByIdService = async (id: string) => {
+export const getPostByIdService = async (id: string) => {
   try {
     const response = await get<SinglePostResponse>(endpoints.getPostById(id));
     return response;

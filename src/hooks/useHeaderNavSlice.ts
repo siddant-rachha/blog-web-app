@@ -33,7 +33,7 @@ export const useHeaderNavSlice = () => {
 
   const changeNav = (navItem: NavItem) => {
     dispatch(headerNavSliceActions.setNavActive(navItem));
-    router.push(Routes[navItem]);
+    if (navItem) router.push(Routes[navItem]);
   };
 
   const setAvatarItemsAsLogin = () => {

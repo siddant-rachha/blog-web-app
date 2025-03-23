@@ -7,6 +7,7 @@ export const postsSlice = createSlice({
   initialState: {
     allPosts: [] as PostType[] | [],
     editPost: {} as PostType,
+    readPost: {} as PostType,
   },
   reducers: {
     setAllPosts: (state, action: PayloadAction<PostType[]>) => {
@@ -14,6 +15,9 @@ export const postsSlice = createSlice({
     },
     setEditPost: (state, action: PayloadAction<PostType>) => {
       state.editPost = action.payload;
+    },
+    setReadPost: (state, action: PayloadAction<PostType>) => {
+      state.readPost = action.payload;
     },
   },
 });

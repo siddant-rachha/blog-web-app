@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 
 export const MISSING_FIELDS = () => {
-  return NextResponse.json({ error: 'MISSING_FIELDS' }, { status: 206 });
+  return NextResponse.json({ error: 'MISSING_FIELDS' }, { status: 400 });
 };
 
 export const TITLE_EXCEED = () => {
-  return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 206 });
+  return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 400 });
 };
 
 export const POST_NOT_FOUND = () => {
-  return NextResponse.json({ error: 'POST_NOT_FOUND' }, { status: 206 });
+  return NextResponse.json({ error: 'POST_NOT_FOUND' }, { status: 400 });
 };
 
 export const UNAUTHORIZED = () => {

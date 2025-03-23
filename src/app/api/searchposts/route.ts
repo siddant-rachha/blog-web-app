@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     if (!query || query.length < 3) {
       return NextResponse.json(
         { error: 'MINIMUM_QUERY_REQUIRED' },
-        { status: 206 }
+        { status: 400 }
       );
     }
 
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     });
 
     if (posts.length === 0) {
-      return NextResponse.json({ error: 'NO_POSTS_FOUND' }, { status: 206 });
+      return NextResponse.json({ error: 'NO_POSTS_FOUND' }, { status: 400 });
     }
 
     return NextResponse.json({ posts }, { status: 200 });

@@ -43,11 +43,11 @@ export async function POST(req: NextRequest) {
     const imageFile = formData.get('image') as File;
 
     if (!title || !desc || !name) {
-      return NextResponse.json({ error: 'MISSING_FIELDS' }, { status: 206 });
+      return NextResponse.json({ error: 'MISSING_FIELDS' }, { status: 400 });
     }
 
     if (title.length > 50) {
-      return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 206 });
+      return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 400 });
     }
 
     let imageUrl = '';
