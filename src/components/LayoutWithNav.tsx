@@ -41,12 +41,14 @@ export default function LayoutWithNav({
   const debouncedSearch = useCallback(
     debounce(async (item: string) => {
       try {
-        if (item.length >= 3) {
-          // setting the search items in this function
-          const res = await handleSearchPosts(item);
-          if (!res?.length) {
-            setNoResults(true);
-          }
+        setSearchLoading(true);
+        setNoResults(false);
+        resetSearchItems();
+        // setting the search items in this function
+        const res = await handleSearchPosts(item);
+        if (!res?.length) {
+          setNoResults(true);
+          resetSearchItems();
         }
       } catch (error) {
         errorNotify('Search failed');
@@ -63,9 +65,8 @@ export default function LayoutWithNav({
     setNoResults(false);
     resetSearchItems();
     if (item.length >= 3) {
-      setSearchLoading(true);
+      debouncedSearch(item);
     }
-    debouncedSearch(item);
   };
 
   const handleSearchItem = (item: { id: string; title: string }) => {

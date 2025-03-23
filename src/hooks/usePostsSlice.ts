@@ -85,15 +85,11 @@ export const usePostsSlice = () => {
     dispatch(postsSliceActions.setReadPost(post));
   };
 
-  const handleDeletePost = async (
-    postId: string,
-    shouldFetchPosts: boolean = true
-  ) => {
+  const handleDeletePost = async (postId: string) => {
     try {
       setRootLoading(true);
       await deletePostService(postId);
       successNotify('Post deleted');
-      if (shouldFetchPosts) getAllPosts();
     } catch (error) {
       console.error(error);
       errorNotify('Post delete failed');

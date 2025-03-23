@@ -28,7 +28,7 @@ export default function BlogPageView() {
     }
   };
 
-  const handleBlogAction = (action: 'edit' | 'del') => {
+  const handleBlogAction = async (action: 'edit' | 'del') => {
     if (action === 'edit') {
       if (readPost.id) {
         setEditPost(readPost);
@@ -37,7 +37,8 @@ export default function BlogPageView() {
     }
     if (action === 'del') {
       if (readPost.id) {
-        handleDeletePost(readPost.id, false);
+        await handleDeletePost(readPost.id);
+        router.push(Routes['Home']);
       }
     }
   };

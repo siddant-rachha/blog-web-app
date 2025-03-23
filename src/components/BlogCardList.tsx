@@ -58,7 +58,13 @@ export const BlogCardList = () => {
     [allPosts]
   );
 
-  const handleCardAction = ({ id, action }: { id: string; action: string }) => {
+  const handleCardAction = async ({
+    id,
+    action,
+  }: {
+    id: string;
+    action: string;
+  }) => {
     if (action === 'edit') {
       const post = allPosts.find((post) => post.id === id);
       if (post) {
@@ -69,7 +75,8 @@ export const BlogCardList = () => {
     if (action === 'del') {
       const post = allPosts.find((post) => post.id === id);
       if (post) {
-        handleDeletePost(post.id);
+        await handleDeletePost(post.id);
+        await getAllPosts();
       }
     }
     if (action === 'read') {

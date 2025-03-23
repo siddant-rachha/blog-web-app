@@ -7,7 +7,7 @@ export const ToastNotify = () => {
         position: 'fixed',
         width: '80%',
         marginLeft: 'auto',
-        marginTop: '4rem',
+        marginTop: '20%',
       }}
       position="top-right"
       autoClose={1500}

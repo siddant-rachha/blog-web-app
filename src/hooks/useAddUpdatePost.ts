@@ -14,8 +14,8 @@ export const useAddUpdatePost = () => {
     setRootLoading(true);
 
     try {
-      const res = await addPostService(formData);
-      successNotify(`Post created: ${res.postId}`);
+      await addPostService(formData);
+      successNotify(`Post created`);
     } catch (error) {
       console.error(error);
       errorNotify('Post creation failed');

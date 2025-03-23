@@ -65,6 +65,12 @@ export const CreatePost = () => {
     }
   }, [pathname]);
 
+  useEffect(() => {
+    if (pathname === Routes['Edit Post'] && !editPost.id) {
+      router.push(Routes['Home']);
+    }
+  }, [pathname]);
+
   return (
     <Box
       sx={{
