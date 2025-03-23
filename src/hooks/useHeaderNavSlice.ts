@@ -48,6 +48,10 @@ export const useHeaderNavSlice = () => {
     dispatch(headerNavSliceActions.setSearchLoading(bool));
   };
 
+  const resetSearchItems = () => {
+    dispatch(headerNavSliceActions.setSearchItems([]));
+  };
+
   const handleSearchPosts = async (query: string) => {
     if (query.length < 3) {
       dispatch(headerNavSliceActions.setSearchItems([]));
@@ -82,6 +86,7 @@ export const useHeaderNavSlice = () => {
       setAvatarItemsAsLogout,
       handleSearchPosts,
       setSearchLoading,
+      resetSearchItems,
     },
   };
 };

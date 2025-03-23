@@ -17,7 +17,12 @@ export default function LayoutWithNav({
 }) {
   const {
     selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },
-    actions: { changeNav, handleSearchPosts, setSearchLoading },
+    actions: {
+      changeNav,
+      handleSearchPosts,
+      setSearchLoading,
+      resetSearchItems,
+    },
   } = useHeaderNavSlice();
   const {
     selectors: { userDetails },
@@ -58,6 +63,8 @@ export default function LayoutWithNav({
     if (item.length >= 3) {
       setSearchLoading(true);
       debouncedSearch(item);
+    } else {
+      resetSearchItems();
     }
   };
 
@@ -74,7 +81,7 @@ export default function LayoutWithNav({
     }
   };
 
-  const updatedSearchItems = useMemo(
+  const mappedSearchItems = useMemo(
     () =>
       searchItems.map((searchItem) => {
         return {
@@ -93,7 +100,7 @@ export default function LayoutWithNav({
       avatarItems={avatarItems}
       navItems={navItems}
       navActive={navActive}
-      searchItems={updatedSearchItems}
+      searchItems={mappedSearchItems}
       noResults={noResults}
       searchItemLoading={searchLoading}
       handleNavItem={handleNavItem}
