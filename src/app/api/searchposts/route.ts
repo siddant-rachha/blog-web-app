@@ -37,9 +37,9 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    if (posts.length === 0) {
-      return NextResponse.json({ error: 'NO_POSTS_FOUND' }, { status: 400 });
-    }
+//    if (posts.length === 0) {
+//      return NextResponse.json({ error: 'NO_POSTS_FOUND' }, { status: 400 });
+//    }
 
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {
