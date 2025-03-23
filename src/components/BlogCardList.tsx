@@ -10,6 +10,7 @@ import { BlogList } from '@siddant-rachha/blog-components';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import emptyImg from '@/assets/no-img.png';
+import { PostType } from '@/types/types';
 
 export const BlogCardList = () => {
   const router = useRouter();
@@ -82,7 +83,7 @@ export const BlogCardList = () => {
     if (action === 'read') {
       const post = allPosts.find((post) => post.id === id);
       if (post) {
-        setReadPost(post);
+        setReadPost({} as PostType);
         router.push(`${Routes['Read Post']}?id=${post.id}`);
       }
     }

@@ -2,19 +2,21 @@
 
 import { BlogNavContainer } from '@siddant-rachha/blog-components';
 import { base64Logo } from '@/assets/base64Logo';
-import { AvatarItem, NavItem } from '@/constants/globalConstants';
+import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
 import { AuthModal } from './AuthModal';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useCallback, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { useToast } from '@/hooks/useToast';
+import { useRouter } from 'next/navigation';
 
 export default function LayoutWithNav({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
   const {
     selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },
     actions: {
@@ -70,7 +72,7 @@ export default function LayoutWithNav({
   };
 
   const handleSearchItem = (item: { id: string; title: string }) => {
-    console.log(item);
+    router.push(`${Routes['Read Post']}?id=${item.id}`);
   };
 
   const handleAvatarItem = (item: string) => {

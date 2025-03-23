@@ -63,6 +63,7 @@ export const usePostsSlice = () => {
 
   const getPostById = async (postId: string) => {
     try {
+      setReadPost({} as PostType);
       setRootLoading(true);
       const postData = await getPostByIdService(postId);
       if (postData.post) {

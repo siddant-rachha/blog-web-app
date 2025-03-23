@@ -3,18 +3,19 @@ import { timestampToString } from '@/utils/TimestampToStringDate/timestampToStri
 import { BlogPage } from '@siddant-rachha/blog-components';
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Routes } from '@/constants/globalConstants';
 import emptyImg from '@/assets/no-img.png';
+import { PostType } from '@/types/types';
 
 export default function BlogPageView() {
-  const pathname = usePathname();
   const router = useRouter();
-  const [postId, setPostId] = useState<string | null>(null);
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('id');
 
   const {
     selectors: { readPost },
-    actions: { getPostById, setEditPost, handleDeletePost },
+    actions: { getPostById, setEditPost, handleDeletePost, setReadPost },
   } = usePostsSlice();
 
   const [postNotFound, setPostNotFound] = useState(false);
@@ -44,17 +45,16 @@ export default function BlogPageView() {
   };
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const searchParams = new URLSearchParams(window.location.search);
-      setPostId(searchParams.get('id'));
-    }
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!readPost.id && postId) {
+    if (postId) {
       handleGetPostById(postId);
     }
   }, [postId]);
+
+  useEffect(() => {
+    return () => {
+      setReadPost({} as PostType);
+    };
+  }, []);
 
   if (postNotFound) {
     return <Typography variant="h6">Post not found</Typography>;
@@ -80,5 +80,13 @@ export default function BlogPageView() {
     avatarSrc: readPost.authorPic,
     writePermission: readPost.writePermission,
   };
-  return <BlogPage blogPost={mappedPost} handleBlogAction={handleBlogAction} />;
+  return (
+    <>
+      {readPost.id ? (
+        <BlogPage blogPost={mappedPost} handleBlogAction={handleBlogAction} />
+      ) : (
+        <Typography variant="h6">Loading...</Typography>
+      )}
+    </>
+  );
 }

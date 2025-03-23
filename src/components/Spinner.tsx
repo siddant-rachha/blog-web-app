@@ -10,7 +10,7 @@ export const Spinner = () => {
       {rootLoading && (
         <Backdrop sx={{ color: '#fff', zIndex: 1001 }} open>
           <Box display="flex" justifyContent="center">
-            <CircularProgress />
+            <CircularProgress color="warning" />
           </Box>
         </Backdrop>
       )}
