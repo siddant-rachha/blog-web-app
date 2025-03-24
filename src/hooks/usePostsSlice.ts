@@ -51,7 +51,7 @@ export const usePostsSlice = () => {
             })
           : [];
       dispatch(postsSliceActions.setAllPosts(posts));
-      successNotify('Posts fetched');
+      // successNotify('Posts fetched');
     } catch (error) {
       console.error(error);
       errorNotify('Posts fetch failed');

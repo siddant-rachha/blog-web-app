@@ -1,3 +1,3 @@
 export default function Page() {
-  return <div>My posts</div>;
+  return <div>Feature yet to be implemented</div>;
 }

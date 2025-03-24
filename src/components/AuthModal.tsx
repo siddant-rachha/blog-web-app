@@ -71,7 +71,7 @@ export const AuthModal = () => {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'white',
           padding: 3,
-          minWidth: { xs: '80vw', sm: '60vw', md: '40vw' },
+          minWidth: { xs: '70vw', sm: '60vw', md: '40vw' },
           minHeight: '30vh',
           display: 'flex',
           flexDirection: 'column',
@@ -92,7 +92,7 @@ export const AuthModal = () => {
           onClick={() => authSignIn()}
         >
           <Google />{' '}
-          <Typography color={'warning'} mx={2}>
+          <Typography fontSize={'0.7rem'} color={'warning'} mx={2}>
             Sign in with Google
           </Typography>
         </Button>

