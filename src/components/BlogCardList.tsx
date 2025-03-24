@@ -98,14 +98,18 @@ export const BlogCardList = () => {
       {!allPosts.length && !rootLoading && (
         <Typography variant="h6">{text}</Typography>
       )}
-      <BlogList
-        blogPosts={mappedAllPosts}
-        blogFilter={['Older', 'Newest']}
-        blogPerPage="3"
-        paginationFilter={['3', '6', '9']}
-        handleCardAction={handleCardAction}
-        handleFilterSelect={() => {}}
-      />
+      {allPosts.length ? (
+        <BlogList
+          blogPosts={mappedAllPosts}
+          blogFilter={['Older', 'Newest']}
+          blogPerPage="3"
+          paginationFilter={['3', '6', '9']}
+          handleCardAction={handleCardAction}
+          handleFilterSelect={() => {}}
+        />
+      ) : (
+        <Typography variant="h6">Loading...</Typography>
+      )}
     </>
   );
 };

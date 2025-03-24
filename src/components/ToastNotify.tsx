@@ -5,9 +5,9 @@ export const ToastNotify = () => {
     <ToastContainer
       style={{
         position: 'fixed',
-        width: '80%',
+        width: '50%',
         marginLeft: 'auto',
-        marginTop: '20%',
+        marginTop: '4rem',
       }}
       position="top-right"
       autoClose={1500}
