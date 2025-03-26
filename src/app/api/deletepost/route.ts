@@ -10,6 +10,7 @@ import {
 } from '../api_utils_only/errorReturns';
 import { decodeToken } from '../api_utils_only/decodeToken';
 import { deleteImgFromCloudinary } from '../api_utils_only/deleteImgFromCloudinary';
+import { ADMIN_UID } from '../constants';
 
 // Handle POST requests
 export async function POST(req: NextRequest) {
@@ -53,7 +54,7 @@ export async function POST(req: NextRequest) {
           return UNAUTHORIZED();
         }
       }
-      if (uid !== 'lp3Gofi5yDSBVEQ8L6ASYP5w1kO2' && uid !== postData?.uid) {
+      if (uid !== ADMIN_UID && uid !== postData?.uid) {
         return UNAUTHORIZED();
       }
     }

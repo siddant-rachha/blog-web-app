@@ -11,6 +11,7 @@ const endpoints = {
   getPostById: (id: string) => `/api/getposts?id=${id}`,
   updatePostById: (id: string) => `/api/editpost?id=${id}`,
   deletePost: '/api/deletepost',
+  myposts: '/api/getposts?myposts=true',
 };
 
 export default endpoints;

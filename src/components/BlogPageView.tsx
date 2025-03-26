@@ -27,7 +27,8 @@ export default function BlogPageView() {
       await getPostById(postId);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      if (error?.response?.data?.error) setPostNotFound(true);
+      if (error?.response?.data?.error === 'POST_NOT_FOUND')
+        setPostNotFound(true);
     }
   };
 

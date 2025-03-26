@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import {
   getAllPostsService,
+  getMyPostsService,
   getPostByIdService,
 } from '@/apiService/getPostsService/getPostsService';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
@@ -28,6 +29,10 @@ export const usePostsSlice = () => {
 
   const readPost = useSelector(
     (state: GlobalRootState) => state.postsSlice.readPost
+  );
+
+  const myPosts = useSelector(
+    (state: GlobalRootState) => state.postsSlice.myPosts
   );
 
   const getAllPosts = async () => {
@@ -78,6 +83,23 @@ export const usePostsSlice = () => {
     }
   };
 
+  const getMyPosts = async () => {
+    try {
+      setRootLoading(true);
+      const res = await getMyPostsService();
+      if (res.posts) {
+        dispatch(postsSliceActions.setMyPosts(res.posts));
+      }
+      return res.posts;
+    } catch (error) {
+      console.error(error);
+      errorNotify('My posts fetch failed');
+      throw error;
+    } finally {
+      setRootLoading(false);
+    }
+  };
+
   const setEditPost = (post: PostType) => {
     dispatch(postsSliceActions.setEditPost(post));
   };
@@ -101,13 +123,14 @@ export const usePostsSlice = () => {
   };
 
   return {
-    selectors: { allPosts, editPost, readPost },
+    selectors: { allPosts, editPost, readPost, myPosts },
     actions: {
       getAllPosts,
       setEditPost,
       handleDeletePost,
       setReadPost,
       getPostById,
+      getMyPosts,
     },
   };
 };

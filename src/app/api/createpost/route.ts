@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  firebaseAdmin,
-  firebaseAdminAuth,
-  firebaseAdminDb,
-} from '@/firebase/firebaseAdmin';
+import { firebaseAdmin, firebaseAdminDb } from '@/firebase/firebaseAdmin';
 import { generateSearchKeywords } from '../api_utils_only/utils';
 import { v2 as cloudinary } from 'cloudinary';
+import {
+  INTERNAL_SERVER_ERROR,
+  MISSING_FIELDS,
+  TITLE_EXCEED,
+  UNAUTHORIZED,
+} from '../api_utils_only/errorReturns';
+import { decodeToken } from '../api_utils_only/decodeToken';
 
 cloudinary.config({
   cloud_name: 'df8byxnyr',
@@ -24,15 +27,14 @@ export async function POST(req: NextRequest) {
 
     if (authorizationHeader) {
       try {
-        const decodedToken =
-          await firebaseAdminAuth.verifyIdToken(authorizationHeader);
+        const decodedToken = await decodeToken(authorizationHeader);
         uid = decodedToken.uid;
         name = decodedToken.name || 'Anonymous';
         picture = decodedToken.picture || '';
         email = decodedToken.email || '';
       } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
+        return UNAUTHORIZED();
       }
     }
 
@@ -43,11 +45,11 @@ export async function POST(req: NextRequest) {
     const imageFile = formData.get('image') as File;
 
     if (!title || !desc || !name) {
-      return NextResponse.json({ error: 'MISSING_FIELDS' }, { status: 400 });
+      return MISSING_FIELDS();
     }
 
     if (title.length > 50) {
-      return NextResponse.json({ error: 'TITLE_EXCEED' }, { status: 400 });
+      return TITLE_EXCEED();
     }
 
     let imageUrl = '';
@@ -102,56 +104,6 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error('Error creating post:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return INTERNAL_SERVER_ERROR();
   }
 }
-
-// -----------------------
-
-// STRUCTURE OF POST SAVED IN FIREBASE DB
-// {
-//   uid: string;
-//   email: string;
-//   authorPic: string;
-//   title: string;
-//   desc: string;
-//   author: string;
-//   imageUrl: string;
-//   searchKeywords: string[];
-//   createdAt: Timestamp;
-// }
-
-// -------------------------
-
-// DIFFERENT RETURNS OF API CALLS
-// {
-//   message: 'POST_CREATED';
-//   postId: string;
-//   error: '';
-//   status: 200;
-// }
-
-// {
-//   error: 'UNAUTHORIZED';
-//   status: 401;
-// }
-
-// {
-//   error: 'Internal Server Error';
-//   status: 500;
-// }
-
-// {
-//   error: 'TITLE_EXCEED';
-//   status: 206;
-// }
-
-// {
-//   error: 'MISSING_FIELDS';
-//   status: 206;
-// }
-
-// -------------------------

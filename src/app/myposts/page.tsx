@@ -1,3 +1,5 @@
+import { BlogCardList } from '@/components/BlogCardList';
+
 export default function Page() {
-  return <div>Feature yet to be implemented</div>;
+  return <BlogCardList myPostsType={true} />;
 }

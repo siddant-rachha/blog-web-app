@@ -27,3 +27,10 @@ export const CLOUDINARY_ERROR = () => {
 export const FIREBASE_ERROR = () => {
   return NextResponse.json({ error: 'FIREBASE_ERROR' }, { status: 500 });
 };
+
+export const MINIMUM_QUERY_REQUIRED = () => {
+  return NextResponse.json(
+    { error: 'MINIMUM_QUERY_REQUIRED' },
+    { status: 400 }
+  );
+};

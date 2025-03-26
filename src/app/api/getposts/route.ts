@@ -1,5 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { firebaseAdminAuth, firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import { firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import {
+  INTERNAL_SERVER_ERROR,
+  POST_NOT_FOUND,
+  UNAUTHORIZED,
+} from '../api_utils_only/errorReturns';
+import { decodeToken } from '../api_utils_only/decodeToken';
+import { ADMIN_UID } from '../constants';
 
 // Fetch all posts or a single post by ID if 'id' is provided in the query string
 export async function GET(req: NextRequest) {
@@ -9,24 +16,24 @@ export async function GET(req: NextRequest) {
 
     if (authorizationHeader) {
       try {
-        const decodedToken =
-          await firebaseAdminAuth.verifyIdToken(authorizationHeader);
+        const decodedToken = await decodeToken(authorizationHeader);
         uid = decodedToken.uid;
       } catch (error) {
         console.log(error);
-        return NextResponse.json({ error: 'UNAUTHORIZED' }, { status: 401 });
+        return UNAUTHORIZED();
       }
     }
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id'); // Get id from query params
+    const myposts = searchParams.get('myposts'); // Get myposts from query params
 
     if (id) {
       const postRef = firebaseAdminDb.collection('posts').doc(id);
       const postDoc = await postRef.get();
 
       if (!postDoc.exists) {
-        return NextResponse.json({ error: 'POST_NOT_FOUND' }, { status: 400 });
+        return POST_NOT_FOUND();
       }
 
       const postData = postDoc.data();
@@ -46,104 +53,82 @@ export async function GET(req: NextRequest) {
         },
         { status: 200 }
       );
-    }
+    } else if (myposts === 'true') {
+      if (!uid) {
+        return NextResponse.json(
+          { posts: [], message: 'POST_NOT_FOUND' },
+          { status: 200 }
+        );
+      }
+      // Fetch only the posts created by the user
+      const postsSnapshot = await firebaseAdminDb
+        .collection('posts')
+        .where('uid', '==', uid)
+        .orderBy('createdAt', 'desc') // Sort by latest
+        .get();
 
-    // Fetch all posts if no ID is provided
-    const postsSnapshot = await firebaseAdminDb
-      .collection('posts')
-      .orderBy('createdAt', 'desc') // Sort by latest
-      .get();
+      if (postsSnapshot.empty) {
+        return NextResponse.json(
+          { posts: [], message: 'POST_NOT_FOUND' },
+          { status: 200 }
+        );
+      }
 
-    if (postsSnapshot.empty) {
+      const posts = postsSnapshot.docs.map((doc) => {
+        const postData = doc.data();
+        return {
+          id: doc.id,
+          title: postData.title,
+          desc: postData.desc?.slice(0, 150),
+          author: postData?.author,
+          imageUrl: postData?.imageUrl,
+          authorPic: postData?.authorPic,
+          createdAt: postData?.createdAt,
+          writePermission: true,
+        };
+      });
+
       return NextResponse.json(
-        { posts: [], error: 'POST_NOT_FOUND' },
-        { status: 400 }
+        { posts, message: 'POSTS_FETCHED' },
+        { status: 200 }
+      );
+    } else {
+      // Fetch all posts if no ID is provided
+      // Firebase will throw error at first time and ask to create index
+      const postsSnapshot = await firebaseAdminDb
+        .collection('posts')
+        .orderBy('createdAt', 'desc') // Sort by latest
+        .get();
+
+      if (postsSnapshot.empty) {
+        return POST_NOT_FOUND();
+      }
+
+      const posts = postsSnapshot.docs.map((doc) => {
+        const postData = doc.data();
+        let writePermission = true;
+        if (postData.uid) {
+          writePermission = uid === postData.uid || uid === ADMIN_UID;
+        }
+        return {
+          id: doc.id,
+          title: postData.title,
+          desc: postData.desc?.slice(0, 150),
+          author: postData?.author,
+          imageUrl: postData?.imageUrl,
+          authorPic: postData?.authorPic,
+          createdAt: postData?.createdAt,
+          writePermission: writePermission,
+        };
+      });
+
+      return NextResponse.json(
+        { posts, message: 'POSTS_FETCHED' },
+        { status: 200 }
       );
     }
-
-    const posts = postsSnapshot.docs.map((doc) => {
-      const postData = doc.data();
-      let writePermission = true;
-      if (postData.uid) {
-        writePermission =
-          uid === postData.uid || uid === 'lp3Gofi5yDSBVEQ8L6ASYP5w1kO2';
-      }
-      return {
-        id: doc.id,
-        title: postData.title,
-        desc: postData.desc,
-        author: postData?.author,
-        imageUrl: postData?.imageUrl,
-        authorPic: postData?.authorPic,
-        createdAt: postData?.createdAt,
-        writePermission: writePermission,
-      };
-    });
-
-    return NextResponse.json(
-      { posts, message: 'POSTS_FETCHED' },
-      { status: 200 }
-    );
   } catch (error) {
     console.error('Error fetching posts:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return INTERNAL_SERVER_ERROR();
   }
 }
-
-// DIFFERENT RETURNS OF API CALLS
-
-// WHEN /api/getposts?id=POST_ID
-
-// {
-//   post: {
-//     id: string;
-//     title: string;
-//     desc: string;
-//     author: string;
-//     imageUrl: string;
-//     authorPic: string;
-//     createdAt: Timestamp;
-//     writePermission: boolean;
-//   },
-//   status: 200;
-// }
-
-// WHEN /api/getposts
-
-// {
-//   posts: [
-//     {
-//       id: string;
-//       title: string;
-//       desc: string;
-//       author: string;
-//       imageUrl: string;
-//       authorPic: string;
-//       createdAt: Timestamp;
-//       writePermission: boolean;
-//     },
-//     ...
-//   ],
-//   status: 200,
-//   message: 'POSTS_FETCHED'
-// }
-
-// COMMON
-
-// {
-//   error: 'POST_NOT_FOUND';
-//   status: 206;
-// }
-
-// {
-//   error: 'Internal Server Error';
-//   status: 500;
-// }
-
-// {
-//   error: 'UNAUTHORIZED';
-//   status: 401;
-// }

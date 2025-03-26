@@ -12,11 +12,17 @@ import { useEffect, useMemo, useState } from 'react';
 import emptyImg from '@/assets/no-img.png';
 import { PostType } from '@/types/types';
 
-export const BlogCardList = () => {
+export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
   const router = useRouter();
   const {
-    actions: { getAllPosts, setEditPost, handleDeletePost, setReadPost },
-    selectors: { allPosts },
+    actions: {
+      getAllPosts,
+      setEditPost,
+      handleDeletePost,
+      setReadPost,
+      getMyPosts,
+    },
+    selectors: { allPosts, myPosts },
   } = usePostsSlice();
 
   const {
@@ -28,22 +34,52 @@ export const BlogCardList = () => {
   } = useAuthSlice();
 
   const [text, setText] = useState('');
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [perPage, setPerPage] = useState('3');
+
+  useEffect(() => {
+    if (myPostsType) {
+      setPosts(myPosts);
+    } else {
+      setPosts(allPosts);
+    }
+  }, [allPosts, myPosts]);
+
+  useEffect(() => {
+    if (myPostsType) getMyPosts();
+  }, [userDetails]);
 
   const fetchPosts = async () => {
-    try {
-      await getAllPosts();
-      if (!allPosts.length) {
-        setText('No posts found.');
+    if (myPostsType) {
+      if (!userDetails) {
+        setText('Login to view your posts.');
+        return;
       }
-    } catch (error) {
-      setText('Something went wrong, please try refreshing.');
-      throw error;
+      try {
+        const myPosts = await getMyPosts();
+        if (myPosts && !myPosts.length) {
+          setText('No posts found.');
+        }
+      } catch (error) {
+        setText('Something went wrong, please try refreshing.');
+        throw error;
+      }
+    } else {
+      try {
+        await getAllPosts();
+        if (!allPosts.length) {
+          setText('No posts found.');
+        }
+      } catch (error) {
+        setText('Something went wrong, please try refreshing.');
+        throw error;
+      }
     }
   };
 
   const mappedAllPosts = useMemo(
     () =>
-      allPosts.map((post) => {
+      posts.map((post) => {
         // fix the type
         const createdAt = post.createdAt as unknown as {
           _seconds: number;
@@ -56,7 +92,7 @@ export const BlogCardList = () => {
           date: timestampToString(createdAt._seconds, createdAt._nanoseconds),
         };
       }),
-    [allPosts]
+    [posts]
   );
 
   const handleCardAction = async ({
@@ -67,25 +103,44 @@ export const BlogCardList = () => {
     action: string;
   }) => {
     if (action === 'edit') {
-      const post = allPosts.find((post) => post.id === id);
+      const post = posts.find((post) => post.id === id);
       if (post) {
         setEditPost(post);
         router.push(Routes['Edit Post']);
       }
     }
     if (action === 'del') {
-      const post = allPosts.find((post) => post.id === id);
+      const post = posts.find((post) => post.id === id);
       if (post) {
         await handleDeletePost(post.id);
-        await getAllPosts();
+        if (myPostsType) {
+          const myPosts = await getMyPosts();
+          if (myPosts && !myPosts.length) {
+            setText('No posts found.');
+          }
+        } else {
+          await getAllPosts();
+        }
       }
     }
     if (action === 'read') {
-      const post = allPosts.find((post) => post.id === id);
+      const post = posts.find((post) => post.id === id);
       if (post) {
         setReadPost({} as PostType);
         router.push(`${Routes['Read Post']}?id=${post.id}`);
       }
+    }
+  };
+
+  const handleFilterSelect = ({
+    type,
+    item,
+  }: {
+    type: string;
+    item: string;
+  }) => {
+    if (type === 'Per page') {
+      setPerPage(item);
     }
   };
 
@@ -95,20 +150,20 @@ export const BlogCardList = () => {
 
   return (
     <>
-      {!allPosts.length && !rootLoading && (
+      {!posts.length && !rootLoading && (
         <Typography variant="h6">{text}</Typography>
       )}
-      {allPosts.length ? (
+      {posts.length ? (
         <BlogList
           blogPosts={mappedAllPosts}
-          blogFilter={['Older', 'Newest']}
-          blogPerPage="3"
+          blogFilter={['Newest', 'Oldest']}
+          blogPerPage={perPage}
           paginationFilter={['3', '6', '9']}
           handleCardAction={handleCardAction}
-          handleFilterSelect={() => {}}
+          handleFilterSelect={handleFilterSelect}
         />
       ) : (
-        <Typography variant="h6">Loading...</Typography>
+        !text && <Typography variant="h6">Loading...</Typography>
       )}
     </>
   );

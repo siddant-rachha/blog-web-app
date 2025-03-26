@@ -19,7 +19,7 @@ export const getAllPostsService = async () => {
     const response = await get<AllPostsResponse>(endpoints.getPosts);
     return response;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching all posts:', error);
     throw error;
   }
 };
@@ -29,7 +29,17 @@ export const getPostByIdService = async (id: string) => {
     const response = await get<SinglePostResponse>(endpoints.getPostById(id));
     return response;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching single post:', error);
+    throw error;
+  }
+};
+
+export const getMyPostsService = async () => {
+  try {
+    const response = await get<AllPostsResponse>(endpoints.myposts);
+    return response;
+  } catch (error) {
+    console.error('Error fetching my posts:', error);
     throw error;
   }
 };

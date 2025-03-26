@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import {
+  INTERNAL_SERVER_ERROR,
+  MINIMUM_QUERY_REQUIRED,
+} from '../api_utils_only/errorReturns';
 
 export async function POST(req: NextRequest) {
   try {
@@ -7,10 +11,7 @@ export async function POST(req: NextRequest) {
     let { query } = body;
 
     if (!query || query.length < 3) {
-      return NextResponse.json(
-        { error: 'MINIMUM_QUERY_REQUIRED' },
-        { status: 400 }
-      );
+      return MINIMUM_QUERY_REQUIRED();
     }
 
     // Normalize spaces and trim
@@ -40,41 +41,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ posts }, { status: 200 });
   } catch (error) {
     console.error('Search error:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
+    return INTERNAL_SERVER_ERROR();
   }
 }
-
-// DIFFERENT RETURNS OF API CALLS
-// {
-//   posts: [
-//     {
-//       id: string;
-//       title: string;
-//       desc: string;
-//       author: string;
-//       imageUrl: string;
-//       authorPic: string;
-//       createdAt: Timestamp;
-//     },
-//     ...
-//   ],
-//   status: 200;
-// }
-
-// {
-//   error: 'NO_POSTS_FOUND';
-//   status: 206;
-// }
-
-// {
-//   error: 'MINIMUM_QUERY_REQUIRED';
-//   status: 206;
-// }
-
-// {
-//   error: 'Internal Server Error';
-//   status: 500;
-// }

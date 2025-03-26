@@ -71,7 +71,7 @@ export const AuthModal = () => {
           transform: 'translate(-50%, -50%)',
           backgroundColor: 'white',
           padding: 3,
-          minWidth: { xs: '70vw', sm: '60vw', md: '40vw' },
+          minWidth: { xs: '80vw', sm: '60vw', md: '40vw' },
           minHeight: '30vh',
           display: 'flex',
           flexDirection: 'column',
