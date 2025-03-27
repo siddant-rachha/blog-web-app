@@ -35,10 +35,18 @@ export const usePostsSlice = () => {
     (state: GlobalRootState) => state.postsSlice.myPosts
   );
 
-  const getAllPosts = async () => {
+  const setEditPost = (post: PostType) => {
+    dispatch(postsSliceActions.setEditPost(post));
+  };
+
+  const setReadPost = (post: PostType) => {
+    dispatch(postsSliceActions.setReadPost(post));
+  };
+
+  const getAllPosts = async (latest: boolean = true) => {
     try {
       setRootLoading(true);
-      const res = await getAllPostsService();
+      const res = await getAllPostsService(latest);
 
       const posts =
         res.posts && res.posts.length
@@ -83,10 +91,10 @@ export const usePostsSlice = () => {
     }
   };
 
-  const getMyPosts = async () => {
+  const getMyPosts = async (latest: boolean = true) => {
     try {
       setRootLoading(true);
-      const res = await getMyPostsService();
+      const res = await getMyPostsService(latest);
       if (res.posts) {
         dispatch(postsSliceActions.setMyPosts(res.posts));
       }
@@ -98,14 +106,6 @@ export const usePostsSlice = () => {
     } finally {
       setRootLoading(false);
     }
-  };
-
-  const setEditPost = (post: PostType) => {
-    dispatch(postsSliceActions.setEditPost(post));
-  };
-
-  const setReadPost = (post: PostType) => {
-    dispatch(postsSliceActions.setReadPost(post));
   };
 
   const handleDeletePost = async (postId: string) => {

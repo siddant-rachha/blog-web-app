@@ -14,9 +14,9 @@ type SinglePostResponse = {
   error: string | undefined;
 };
 
-export const getAllPostsService = async () => {
+export const getAllPostsService = async (latest: boolean = true) => {
   try {
-    const response = await get<AllPostsResponse>(endpoints.getPosts);
+    const response = await get<AllPostsResponse>(endpoints.getPosts(latest));
     return response;
   } catch (error) {
     console.error('Error fetching all posts:', error);
@@ -34,9 +34,9 @@ export const getPostByIdService = async (id: string) => {
   }
 };
 
-export const getMyPostsService = async () => {
+export const getMyPostsService = async (latest: boolean = true) => {
   try {
-    const response = await get<AllPostsResponse>(endpoints.myposts);
+    const response = await get<AllPostsResponse>(endpoints.myposts(latest));
     return response;
   } catch (error) {
     console.error('Error fetching my posts:', error);

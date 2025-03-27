@@ -142,6 +142,13 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
     if (type === 'Per page') {
       setPerPage(item);
     }
+    if (type === 'Filter by') {
+      if (myPostsType) {
+        getMyPosts(item === 'Newest');
+      } else {
+        getAllPosts(item === 'Newest');
+      }
+    }
   };
 
   useEffect(() => {

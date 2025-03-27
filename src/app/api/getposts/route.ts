@@ -27,6 +27,11 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id'); // Get id from query params
     const myposts = searchParams.get('myposts'); // Get myposts from query params
+    const latest = searchParams.get('latest'); // Get desc from query params
+    let desc = true;
+    if (latest === 'false') {
+      desc = false;
+    }
 
     if (id) {
       const postRef = firebaseAdminDb.collection('posts').doc(id);
@@ -61,10 +66,11 @@ export async function GET(req: NextRequest) {
         );
       }
       // Fetch only the posts created by the user
+      // Firebase will throw error at first time and ask to create index
       const postsSnapshot = await firebaseAdminDb
         .collection('posts')
         .where('uid', '==', uid)
-        .orderBy('createdAt', 'desc') // Sort by latest
+        .orderBy('createdAt', desc ? 'desc' : 'asc') // Sort by latest
         .get();
 
       if (postsSnapshot.empty) {
@@ -97,7 +103,7 @@ export async function GET(req: NextRequest) {
       // Firebase will throw error at first time and ask to create index
       const postsSnapshot = await firebaseAdminDb
         .collection('posts')
-        .orderBy('createdAt', 'desc') // Sort by latest
+        .orderBy('createdAt', desc ? 'desc' : 'asc') // Sort by latest
         .get();
 
       if (postsSnapshot.empty) {
