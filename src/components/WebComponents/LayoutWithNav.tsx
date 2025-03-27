@@ -1,15 +1,17 @@
 'use client';
 
-import { BlogNavContainer } from '@siddant-rachha/blog-components';
 import { base64Logo } from '@/assets/base64Logo';
-import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
-import { AuthModal } from './AuthModal';
+import { AvatarItem, NavItem, RoutesWC } from '@/constants/globalConstants';
+import { AuthModal } from '../CommonComponents/AuthModal';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
 import { useToast } from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
+import { EventConsumer, RemoveEvent } from './EventConsumer';
+import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 
 export default function LayoutWithNav({
   children,
@@ -35,9 +37,9 @@ export default function LayoutWithNav({
 
   const [noResults, setNoResults] = useState(false);
 
-  const handleNavItem = (navItem: string) => {
+  const handleNavItem = useCallback((navItem: string) => {
     changeNav(navItem as NavItem);
-  };
+  }, []);
 
   // Debounced search function (waits 1000ms before triggering the search)
   const debouncedSearch = useCallback(
@@ -65,24 +67,27 @@ export default function LayoutWithNav({
     []
   );
 
-  const handleSearchInput = (item: string) => {
+  const handleSearchInput = useCallback((item: string) => {
     setNoResults(false);
     resetSearchItems();
     debouncedSearch(item);
-  };
+  }, []);
 
-  const handleSearchItem = (item: { id: string; title: string }) => {
-    router.push(`${Routes['Read Post']}?id=${item.id}`);
-  };
+  const handleSearchItem = useCallback(
+    (item: { id: string; title: string }) => {
+      router.push(`${RoutesWC['Read Post']}?id=${item.id}`);
+    },
+    []
+  );
 
-  const handleAvatarItem = (item: string) => {
+  const handleAvatarItem = useCallback((item: string) => {
     const avatarItem = item as AvatarItem;
     if (avatarItem === AvatarItem.LOGIN) {
       setShowAuthModal(true);
     } else if (avatarItem === AvatarItem.LOGOUT) {
       authSignOut();
     }
-  };
+  }, []);
 
   const updatedSearchItems = useMemo(
     () =>
@@ -95,24 +100,46 @@ export default function LayoutWithNav({
     [searchItems]
   );
 
+  useEffect(() => {
+    // register custom events
+    EventConsumer('handleAvatarItemWC', handleAvatarItem);
+    EventConsumer('handleNavItemWC', handleNavItem);
+    EventConsumer('handleSearchItemWC', handleSearchItem);
+    EventConsumer('handleSearchInputWC', handleSearchInput);
+    return () => {
+      RemoveEvent('handleAvatarItemWC');
+      RemoveEvent('handleNavItemWC');
+      RemoveEvent('handleSearchItemWC');
+      RemoveEvent('handleSearchInputWC');
+    };
+  }, []);
+
   return (
-    <BlogNavContainer
-      logoSrc={base64Logo}
-      avatarSrc={userDetails?.photoURL || ''}
-      avatarName={userDetails?.displayName || 'Anonymous'}
-      avatarItems={avatarItems}
-      navItems={navItems}
-      navActive={navActive}
-      searchItems={updatedSearchItems}
-      noResults={noResults}
-      searchItemLoading={searchLoading}
-      handleNavItem={handleNavItem}
-      handleAvatarItem={handleAvatarItem}
-      handleSearchInput={handleSearchInput}
-      handleSearchItem={handleSearchItem}
-    >
-      <AuthModal />
-      {children}
-    </BlogNavContainer>
+    <>
+      <blog-nav-container
+        logo-src={base64Logo}
+        avatar-src={userDetails?.photoURL || ''}
+        nav-items={JSON.stringify(navItems)}
+        nav-active={navActive}
+        avatar-name={userDetails?.displayName || 'Anonymous'}
+        avatar-items={JSON.stringify(avatarItems)}
+        search-items={JSON.stringify(updatedSearchItems)}
+        no-results={noResults}
+        search-item-loading={searchLoading}
+      />
+      <Box width="100%" sx={{ padding: { xs: 1, sm: 2, md: 3 } }}>
+        <AuthModal />
+        {children}
+      </Box>
+      <Typography
+        color="text.disabled"
+        fontStyle={'italic'}
+        position={'fixed'}
+        sx={{ bottom: { xs: '5%', md: '10%' }, right: { xs: '5%', md: '10%' } }}
+        fontFamily={'fantasy'}
+      >
+        These are web components
+      </Typography>
+    </>
   );
 }

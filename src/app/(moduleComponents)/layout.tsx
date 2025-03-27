@@ -4,11 +4,11 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Providers from '@/globalState/rootState/providers';
 
-import LayoutWithNav from '@/components/LayoutWithNav';
-import { RouteHandler } from '@/components/RouteHandler';
+import LayoutWithNav from '@/components/ModuleComponents/LayoutWithNav';
+import { RouteHandler } from '@/components/ModuleComponents/RouteHandler';
 import Box from '@mui/material/Box';
-import { ToastNotify } from '@/components/ToastNotify';
-import { Spinner } from '@/components/Spinner';
+import { ToastNotify } from '@/components/CommonComponents/ToastNotify';
+import { Spinner } from '@/components/CommonComponents/Spinner';
 import Script from 'next/script';
 
 const geistSans = Geist({

@@ -6,7 +6,7 @@ import { SearchedPostType } from '@/types/types';
 export const headerNavSlice = createSlice({
   name: sliceNames.headerNavSlice,
   initialState: {
-    navItems: [NavItem.HOME, NavItem.CREATE_POST, NavItem.MY_POST],
+    navItems: [] as NavItem[],
     navActive: NavItem.HOME,
     avatarItems: [AvatarItem.LOGIN],
     searchItems: [] as SearchedPostType[],
@@ -24,6 +24,9 @@ export const headerNavSlice = createSlice({
     },
     setSearchLoading: (state, action: PayloadAction<boolean>) => {
       state.searchLoading = action.payload;
+    },
+    setNavItems: (state, action: PayloadAction<NavItem[]>) => {
+      state.navItems = action.payload;
     },
   },
 });

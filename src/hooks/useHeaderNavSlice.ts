@@ -1,13 +1,20 @@
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
+import {
+  AvatarItem,
+  NavItem,
+  Routes,
+  RoutesWC,
+} from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { headerNavSliceActions } from '@/globalState/stateSlices/headerNavSlice/headerNavSlice';
 import { searchPostsService } from '@/apiService/searchPostsService/searchPostsService';
 import emptyImg from '@/assets/no-img.png';
 import { getLowResCloudinaryImg } from '@/utils/getLowResCloudinaryImg/getLowResCloudinaryImg';
+import { useEffect } from 'react';
 
 export const useHeaderNavSlice = () => {
+  const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -32,6 +39,12 @@ export const useHeaderNavSlice = () => {
   );
 
   const changeNav = (navItem: NavItem) => {
+    // for webcomponents
+    if (pathname.includes('webcomponents')) {
+      dispatch(headerNavSliceActions.setNavActive(navItem));
+      if (navItem) router.push(RoutesWC[navItem]);
+      return;
+    }
     dispatch(headerNavSliceActions.setNavActive(navItem));
     if (navItem) router.push(Routes[navItem]);
   };
@@ -77,6 +90,28 @@ export const useHeaderNavSlice = () => {
       throw error;
     }
   };
+
+  useEffect(() => {
+    if (pathname.includes('webcomponents')) {
+      dispatch(
+        headerNavSliceActions.setNavItems([
+          NavItem.HOME,
+          NavItem.CREATE_POST,
+          NavItem.MY_POST,
+          NavItem.MODULE_COMPONENTS,
+        ])
+      );
+    } else {
+      dispatch(
+        headerNavSliceActions.setNavItems([
+          NavItem.HOME,
+          NavItem.CREATE_POST,
+          NavItem.MY_POST,
+          NavItem.WEB_COMPONENTS,
+        ])
+      );
+    }
+  }, []);
 
   return {
     selectors: { navActive, navItems, avatarItems, searchItems, searchLoading },

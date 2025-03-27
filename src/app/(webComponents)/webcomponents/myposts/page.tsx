@@ -1,4 +1,4 @@
-import { BlogCardList } from '@/components/BlogCardList';
+import { BlogCardList } from '@/components/WebComponents/BlogCardList';
 
 export default function Page() {
   return <BlogCardList myPostsType={true} />;
