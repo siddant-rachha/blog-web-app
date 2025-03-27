@@ -5,10 +5,11 @@ import { useAddUpdatePost } from '@/hooks/useAddUpdatePost';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { BlogForm } from '@siddant-rachha/blog-components';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const CreatePost = () => {
   const router = useRouter();
@@ -72,20 +73,25 @@ export const CreatePost = () => {
   }, [pathname]);
 
   return (
-    <Box
-      sx={{
-        width: { md: '80%' },
-        margin: 'auto',
-      }}
-    >
-      <BlogForm
-        handleFormSubmit={handleFormSubmit}
-        name={userDetails?.displayName || 'Anonymous'}
-        title={editPost.title || ''}
-        desc={editPost.desc || ''}
-        resetForm={resetForm}
-        imageUrl={editPost.imageUrl}
-      />
-    </Box>
+    <>
+      <Box
+        sx={{
+          width: { md: '80%' },
+          margin: 'auto',
+        }}
+      >
+        <Button sx={{ my: 2 }} variant="outlined" onClick={() => router.back()}>
+          <ArrowBackIcon /> Back
+        </Button>
+        <BlogForm
+          handleFormSubmit={handleFormSubmit}
+          name={userDetails?.displayName || 'Anonymous'}
+          title={editPost.title || ''}
+          desc={editPost.desc || ''}
+          resetForm={resetForm}
+          imageUrl={editPost.imageUrl}
+        />
+      </Box>
+    </>
   );
 };

@@ -4,11 +4,12 @@ import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 import { BlogPage } from '@siddant-rachha/blog-components';
 import { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Routes } from '@/constants/globalConstants';
 import emptyImg from '@/assets/no-img.png';
 import { PostType } from '@/types/types';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function BlogPageView() {
   const router = useRouter();
@@ -86,7 +87,16 @@ export default function BlogPageView() {
   return (
     <>
       {readPost.id ? (
-        <BlogPage blogPost={mappedPost} handleBlogAction={handleBlogAction} />
+        <>
+          <Button
+            sx={{ my: 2 }}
+            variant="outlined"
+            onClick={() => router.back()}
+          >
+            <ArrowBackIcon /> Back
+          </Button>
+          <BlogPage blogPost={mappedPost} handleBlogAction={handleBlogAction} />
+        </>
       ) : (
         <Typography variant="h6">Loading...</Typography>
       )}

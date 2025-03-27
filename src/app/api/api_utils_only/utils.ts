@@ -1,9 +1,6 @@
 export const generateSearchKeywords = (title: string) => {
   // Remove all special characters except letters, numbers, and spaces
-  const words = title
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .split(/\s+/);
+  const words = title.toLowerCase().split(/\s+/);
   const keywordSet = new Set();
 
   // Generate prefixes starting from each word

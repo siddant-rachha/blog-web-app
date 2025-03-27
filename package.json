@@ -11,7 +11,9 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "prepare": "husky",
     "test": "",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "encrypt-env": "read -s -p '🔐 Enter password to encrypt: ' pass && echo && openssl aes-256-cbc -salt -pbkdf2 -in .env -out encrypted.env -k \"$pass\" && echo '✅ .env file encrypted to encrypted.env!'",
+    "decrypt-env": "read -s -p '🔐 Enter password to decrypt: ' pass && echo && openssl aes-256-cbc -d -pbkdf2 -in encrypted.env -out .env.local -k \"$pass\" && echo '✅ encrypted.env decrypted to .env.local!'"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -20,7 +22,7 @@
     "@mui/material": "^6.4.6",
     "@mui/material-nextjs": "^6.4.3",
     "@reduxjs/toolkit": "^2.5.1",
-    "@siddant-rachha/blog-components": "^2.0.10",
+    "@siddant-rachha/blog-components": "^2.0.11",
     "axios": "^1.7.9",
     "cloudinary": "^2.6.0",
     "firebase": "^11.4.0",
