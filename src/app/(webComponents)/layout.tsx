@@ -46,7 +46,7 @@ export default function RootLayout({
         />
         <Script
           type="module"
-          src="https://cdn.jsdelivr.net/npm/@siddant-rachha/blog-components/dist/bundle.js"
+          src="https://cdn.jsdelivr.net/npm/@siddant-rachha/blog-components@2.0.17/dist/bundle.js"
         ></Script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
