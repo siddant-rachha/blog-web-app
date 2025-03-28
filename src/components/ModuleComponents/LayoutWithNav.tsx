@@ -118,7 +118,11 @@ export default function LayoutWithNav({
         color="text.disabled"
         fontStyle={'italic'}
         position={'fixed'}
-        sx={{ bottom: { xs: '5%', md: '10%' }, right: { xs: '5%', md: '10%' } }}
+        sx={{
+          bottom: { xs: '5%', md: '10%' },
+          right: { xs: '5%', md: '10%' },
+          pointerEvents: 'none',
+        }}
         fontFamily={'fantasy'}
       >
         These are npm module components
