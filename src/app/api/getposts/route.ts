@@ -53,7 +53,8 @@ export async function GET(req: NextRequest) {
             imageUrl: postData?.imageUrl,
             authorPic: postData?.authorPic,
             createdAt: postData?.createdAt,
-            writePermission: uid === postData?.uid || uid === ADMIN_UID || !uid,
+            writePermission:
+              uid === postData?.uid || uid === ADMIN_UID || !postData?.uid,
           },
         },
         { status: 200 }
