@@ -10,8 +10,8 @@ declare global {
           'avatar-name': string;
           'avatar-items': string;
           'search-items': string;
-          'no-results': boolean;
-          'search-item-loading': boolean;
+          'no-results': string;
+          'search-item-loading': string;
         };
         'blog-list': {
           'blog-posts': string;
@@ -27,7 +27,7 @@ declare global {
           title?: string;
           desc?: string;
           'image-url'?: string;
-          'reset-form': boolean;
+          'reset-form': string;
         };
       }
     }

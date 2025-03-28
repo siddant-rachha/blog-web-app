@@ -124,8 +124,8 @@ export default function LayoutWithNav({
         avatar-name={userDetails?.displayName || 'Anonymous'}
         avatar-items={JSON.stringify(avatarItems)}
         search-items={JSON.stringify(updatedSearchItems)}
-        no-results={noResults}
-        search-item-loading={searchLoading}
+        no-results={JSON.stringify(noResults)}
+        search-item-loading={JSON.stringify(searchLoading)}
       />
       <Box width="100%" sx={{ padding: { xs: 1, sm: 2, md: 3 } }}>
         <AuthModal />

@@ -98,7 +98,7 @@ export const CreatePost = () => {
           name={userDetails?.displayName || 'Anonymous'}
           title={editPost.title || ''}
           desc={editPost.desc || ''}
-          reset-form={resetForm}
+          reset-form={JSON.stringify(resetForm)}
           image-url={editPost.imageUrl}
         />
       </Box>
