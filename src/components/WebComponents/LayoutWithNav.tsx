@@ -11,7 +11,7 @@ import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useToast } from '@/hooks/useToast';
 import { AuthModal } from '../CommonComponents/AuthModal';
-import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
+import { EventConsumer, RemoveEvent } from './CustomEventHandler';
 
 export default function LayoutWithNav({
   children,

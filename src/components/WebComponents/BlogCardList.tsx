@@ -10,7 +10,7 @@ import { useCommonSlice } from '@/hooks/useCommonSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
-import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
+import { EventConsumer, RemoveEvent } from './CustomEventHandler';
 
 export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
   const [text, setText] = useState('');

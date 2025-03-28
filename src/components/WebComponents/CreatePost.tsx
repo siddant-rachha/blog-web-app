@@ -9,7 +9,7 @@ import { useAddUpdatePost } from '@/hooks/useAddUpdatePost';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
-import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
+import { EventConsumer, RemoveEvent } from './CustomEventHandler';
 
 export const CreatePost = () => {
   const router = useRouter();

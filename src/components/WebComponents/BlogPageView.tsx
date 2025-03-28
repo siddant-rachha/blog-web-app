@@ -9,7 +9,7 @@ import { RoutesWC } from '@/constants/globalConstants';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
-import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
+import { EventConsumer, RemoveEvent } from './CustomEventHandler';
 
 export default function BlogPageView() {
   const router = useRouter();

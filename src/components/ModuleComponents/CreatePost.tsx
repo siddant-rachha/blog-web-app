@@ -72,6 +72,8 @@ export const CreatePost = () => {
     }
   }, [pathname]);
 
+  console.log('userdetails', userDetails);
+
   return (
     <>
       <Box
