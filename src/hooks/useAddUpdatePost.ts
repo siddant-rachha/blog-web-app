@@ -1,8 +1,8 @@
 import { addPostService } from '@/apiService/addPostService/addPostService';
+import { updatePostService } from '@/apiService/updatePostService/updatePostService';
 import { AddPostFormType, UpdatePostFormType } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
 import { useToast } from './useToast';
-import { updatePostService } from '@/apiService/updatePostService/updatePostService';
 
 export const useAddUpdatePost = () => {
   const {

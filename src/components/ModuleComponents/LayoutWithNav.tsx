@@ -1,16 +1,16 @@
 'use client';
 
+import { Typography } from '@mui/material';
 import { BlogNavContainer } from '@siddant-rachha/blog-components';
+import { debounce } from 'lodash';
+import { useRouter } from 'next/navigation';
+import { useCallback, useMemo, useState } from 'react';
 import { base64Logo } from '@/assets/base64Logo';
 import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
-import { AuthModal } from '../CommonComponents/AuthModal';
-import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCallback, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useToast } from '@/hooks/useToast';
-import { useRouter } from 'next/navigation';
-import { Typography } from '@mui/material';
+import { AuthModal } from '../CommonComponents/AuthModal';
 
 export default function LayoutWithNav({
   children,

@@ -15,6 +15,22 @@ const eslintConfig = [
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
       'react-hooks/exhaustive-deps': 'off', // Disable dependency warnings for useEffect
+      'no-debugger': 'error',
+      'import/no-cycle': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
     },
   }),
 ];

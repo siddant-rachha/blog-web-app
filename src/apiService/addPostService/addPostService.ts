@@ -1,6 +1,6 @@
+import { AddPostFormType } from '@/types/types';
 import { post } from '@/utils/apiClient';
 import endpoints from '../endpoints';
-import { AddPostFormType } from '@/types/types';
 
 type AddPostRequest = AddPostFormType;
 interface AddPostResponse {

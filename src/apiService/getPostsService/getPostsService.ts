@@ -1,6 +1,6 @@
+import { PostType } from '@/types/types';
 import { get } from '@/utils/apiClient';
 import endpoints from '../endpoints';
-import { PostType } from '@/types/types';
 
 type AllPostsResponse = {
   posts: PostType[] | undefined;

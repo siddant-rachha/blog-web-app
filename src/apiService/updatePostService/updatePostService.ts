@@ -1,6 +1,6 @@
+import { UpdatePostFormType } from '@/types/types';
 import { post } from '@/utils/apiClient';
 import endpoints from '../endpoints';
-import { UpdatePostFormType } from '@/types/types';
 
 type UpdatePostRequest = UpdatePostFormType;
 interface UpdatePostResponse {

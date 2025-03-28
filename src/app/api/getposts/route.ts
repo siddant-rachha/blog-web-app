@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import { decodeToken } from '../api_utils_only/decodeToken';
 import {
   INTERNAL_SERVER_ERROR,
   POST_NOT_FOUND,
   UNAUTHORIZED,
 } from '../api_utils_only/errorReturns';
-import { decodeToken } from '../api_utils_only/decodeToken';
 import { ADMIN_UID } from '../constants';
 
 // Fetch all posts or a single post by ID if 'id' is provided in the query string

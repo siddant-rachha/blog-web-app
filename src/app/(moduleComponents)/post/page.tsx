@@ -1,6 +1,6 @@
+import { Typography } from '@mui/material';
 import { Suspense } from 'react';
 import BlogPageView from '@/components/ModuleComponents/BlogPageView';
-import { Typography } from '@mui/material';
 
 export default function Page() {
   return (

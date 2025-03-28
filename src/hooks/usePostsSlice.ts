@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
+import { deletePostService } from '@/apiService/deletePostService/deletePostService';
 import {
   getAllPostsService,
   getMyPostsService,
   getPostByIdService,
 } from '@/apiService/getPostsService/getPostsService';
+import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { postsSliceActions } from '@/globalState/stateSlices/postsSlice/postsSlice';
+import { PostType } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
 import { useToast } from './useToast';
-import { PostType } from '@/types/types';
-import { deletePostService } from '@/apiService/deletePostService/deletePostService';
 
 export const usePostsSlice = () => {
   const dispatch = useDispatch<AppDispatch>();

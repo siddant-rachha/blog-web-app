@@ -1,6 +1,6 @@
 'use client';
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Close, Google } from '@mui/icons-material';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import {
   authChangeEventListener,

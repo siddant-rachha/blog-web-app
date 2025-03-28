@@ -1,5 +1,8 @@
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { searchPostsService } from '@/apiService/searchPostsService/searchPostsService';
+import emptyImg from '@/assets/no-img.png';
 import {
   AvatarItem,
   NavItem,
@@ -8,10 +11,7 @@ import {
 } from '@/constants/globalConstants';
 import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { headerNavSliceActions } from '@/globalState/stateSlices/headerNavSlice/headerNavSlice';
-import { searchPostsService } from '@/apiService/searchPostsService/searchPostsService';
-import emptyImg from '@/assets/no-img.png';
 import { getLowResCloudinaryImg } from '@/utils/getLowResCloudinaryImg/getLowResCloudinaryImg';
-import { useEffect } from 'react';
 
 export const useHeaderNavSlice = () => {
   const pathname = usePathname();

@@ -1,5 +1,5 @@
-import axiosInstance from './axiosInstance';
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axiosInstance from './axiosInstance';
 
 type Method = 'get' | 'post' | 'put' | 'delete';
 

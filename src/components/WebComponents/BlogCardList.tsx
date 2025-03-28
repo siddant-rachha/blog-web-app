@@ -1,16 +1,16 @@
 'use client';
 
-import { RoutesWC } from '@/constants/globalConstants';
-import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCommonSlice } from '@/hooks/useCommonSlice';
-import { usePostsSlice } from '@/hooks/usePostsSlice';
-import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 import { Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import emptyImg from '@/assets/no-img.png';
+import { RoutesWC } from '@/constants/globalConstants';
+import { useAuthSlice } from '@/hooks/useAuthSlice';
+import { useCommonSlice } from '@/hooks/useCommonSlice';
+import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
-import { EventConsumer, RemoveEvent } from './EventConsumer';
+import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
+import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
 
 export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
   const [text, setText] = useState('');

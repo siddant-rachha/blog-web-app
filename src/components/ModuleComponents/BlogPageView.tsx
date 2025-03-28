@@ -1,15 +1,15 @@
 'use client';
 
-import { usePostsSlice } from '@/hooks/usePostsSlice';
-import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
-import { BlogPage } from '@siddant-rachha/blog-components';
-import { useEffect, useState } from 'react';
-import { Button, Typography } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Routes } from '@/constants/globalConstants';
-import emptyImg from '@/assets/no-img.png';
-import { PostType } from '@/types/types';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, Typography } from '@mui/material';
+import { BlogPage } from '@siddant-rachha/blog-components';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import emptyImg from '@/assets/no-img.png';
+import { Routes } from '@/constants/globalConstants';
+import { usePostsSlice } from '@/hooks/usePostsSlice';
+import { PostType } from '@/types/types';
+import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 
 export default function BlogPageView() {
   const router = useRouter();

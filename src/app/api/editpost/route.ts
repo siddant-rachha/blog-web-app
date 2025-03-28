@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { firebaseAdmin, firebaseAdminDb } from '@/firebase/firebaseAdmin';
-import { generateSearchKeywords } from '../api_utils_only/utils';
+import { decodeToken } from '../api_utils_only/decodeToken';
+import { deleteImgFromCloudinary } from '../api_utils_only/deleteImgFromCloudinary';
 import {
   CLOUDINARY_ERROR,
   FIREBASE_ERROR,
@@ -10,9 +11,8 @@ import {
   TITLE_EXCEED,
   UNAUTHORIZED,
 } from '../api_utils_only/errorReturns';
-import { decodeToken } from '../api_utils_only/decodeToken';
 import { uploadImgToCloudinary } from '../api_utils_only/uploadImgToCloudinary';
-import { deleteImgFromCloudinary } from '../api_utils_only/deleteImgFromCloudinary';
+import { generateSearchKeywords } from '../api_utils_only/utils';
 
 // Handle POST requests
 export async function POST(req: NextRequest) {

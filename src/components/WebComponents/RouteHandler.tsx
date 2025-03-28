@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import React, { useEffect } from 'react';
 import { NavItem, RoutesWC } from '@/constants/globalConstants';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 

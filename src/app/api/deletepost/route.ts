@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { firebaseAdminDb } from '@/firebase/firebaseAdmin';
+import { decodeToken } from '../api_utils_only/decodeToken';
+import { deleteImgFromCloudinary } from '../api_utils_only/deleteImgFromCloudinary';
 import {
   CLOUDINARY_ERROR,
   FIREBASE_ERROR,
@@ -8,8 +10,6 @@ import {
   POST_NOT_FOUND,
   UNAUTHORIZED,
 } from '../api_utils_only/errorReturns';
-import { decodeToken } from '../api_utils_only/decodeToken';
-import { deleteImgFromCloudinary } from '../api_utils_only/deleteImgFromCloudinary';
 import { ADMIN_UID } from '../constants';
 
 // Handle POST requests

@@ -1,5 +1,5 @@
-import { useCommonSlice } from '@/hooks/useCommonSlice';
 import { Backdrop, Box, CircularProgress } from '@mui/material';
+import { useCommonSlice } from '@/hooks/useCommonSlice';
 
 export const Spinner = () => {
   const {

@@ -1,14 +1,14 @@
+import { v2 as cloudinary } from 'cloudinary';
 import { NextRequest, NextResponse } from 'next/server';
 import { firebaseAdmin, firebaseAdminDb } from '@/firebase/firebaseAdmin';
-import { generateSearchKeywords } from '../api_utils_only/utils';
-import { v2 as cloudinary } from 'cloudinary';
+import { decodeToken } from '../api_utils_only/decodeToken';
 import {
   INTERNAL_SERVER_ERROR,
   MISSING_FIELDS,
   TITLE_EXCEED,
   UNAUTHORIZED,
 } from '../api_utils_only/errorReturns';
-import { decodeToken } from '../api_utils_only/decodeToken';
+import { generateSearchKeywords } from '../api_utils_only/utils';
 
 cloudinary.config({
   cloud_name: 'df8byxnyr',

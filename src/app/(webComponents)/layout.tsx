@@ -1,15 +1,14 @@
 'use client';
+import Box from '@mui/material/Box';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import Providers from '@/globalState/rootState/providers';
-
+import Script from 'next/script';
+import { Spinner } from '@/components/CommonComponents/Spinner';
+import { ToastNotify } from '@/components/CommonComponents/ToastNotify';
 import LayoutWithNav from '@/components/WebComponents/LayoutWithNav';
 import { RouteHandler } from '@/components/WebComponents/RouteHandler';
-import Box from '@mui/material/Box';
-import { ToastNotify } from '@/components/CommonComponents/ToastNotify';
-import { Spinner } from '@/components/CommonComponents/Spinner';
-import Script from 'next/script';
+import Providers from '@/globalState/rootState/providers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

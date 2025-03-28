@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import {
   firebaseAuth,
   firebaseSignIn,
   firebaseSignOut,
   googleAuthProvider,
 } from '@/firebase/firebaseClient';
-import { useHeaderNavSlice } from './useHeaderNavSlice';
+import { AppDispatch, GlobalRootState } from '@/globalState/rootState/store';
 import { authSliceActions } from '@/globalState/stateSlices/authSlice/authSlice';
 import { UserDetails } from '@/types/types';
 import { useCommonSlice } from './useCommonSlice';
+import { useHeaderNavSlice } from './useHeaderNavSlice';
 import { useToast } from './useToast';
 
 export const useAuthSlice = () => {

@@ -1,15 +1,15 @@
 'use client';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Button } from '@mui/material';
+import { useRouter, usePathname } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { RoutesWC } from '@/constants/globalConstants';
 import { useAddUpdatePost } from '@/hooks/useAddUpdatePost';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
-import { Box, Button } from '@mui/material';
-import { useRouter, usePathname } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { EventConsumer, RemoveEvent } from './EventConsumer';
+import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
 
 export const CreatePost = () => {
   const router = useRouter();
@@ -33,7 +33,6 @@ export const CreatePost = () => {
       desc: string;
     }) => {
       try {
-        debugger;
         // if edit post
         if (editPost.id) {
           await handleFormUpdatePost({
@@ -78,10 +77,8 @@ export const CreatePost = () => {
 
   useEffect(() => {
     // register custom events
-    debugger;
     EventConsumer('handleFormSubmitWC', handleFormSubmit);
     return () => {
-      debugger;
       RemoveEvent('handleFormSubmitWC');
     };
   }, [editPost]);

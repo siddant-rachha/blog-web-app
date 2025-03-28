@@ -1,5 +1,5 @@
-import defaultConfig from '@/configs/defaultConfig';
 import axios from 'axios';
+import defaultConfig from '@/configs/defaultConfig';
 
 // Create an Axios instance with default configurations
 const axiosInstance = axios.create({

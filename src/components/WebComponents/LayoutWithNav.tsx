@@ -1,17 +1,17 @@
 'use client';
 
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import { debounce } from 'lodash';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { base64Logo } from '@/assets/base64Logo';
 import { AvatarItem, NavItem, RoutesWC } from '@/constants/globalConstants';
-import { AuthModal } from '../CommonComponents/AuthModal';
-import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { debounce } from 'lodash';
+import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
 import { useToast } from '@/hooks/useToast';
-import { useRouter } from 'next/navigation';
-import { EventConsumer, RemoveEvent } from './EventConsumer';
-import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import { AuthModal } from '../CommonComponents/AuthModal';
+import { EventConsumer, RemoveEvent } from './CustomEventHanlder';
 
 export default function LayoutWithNav({
   children,

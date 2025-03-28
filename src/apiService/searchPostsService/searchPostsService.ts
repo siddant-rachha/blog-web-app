@@ -1,6 +1,6 @@
-import endpoints from '../endpoints';
-import { post } from '@/utils/apiClient';
 import { SearchedPostType } from '@/types/types';
+import { post } from '@/utils/apiClient';
+import endpoints from '../endpoints';
 
 interface SearchPostResponse {
   posts: SearchedPostType[] | undefined;
