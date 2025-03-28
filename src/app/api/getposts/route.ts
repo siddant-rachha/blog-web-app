@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
             imageUrl: postData?.imageUrl,
             authorPic: postData?.authorPic,
             createdAt: postData?.createdAt,
-            writePermission: uid === postData?.uid,
+            writePermission: uid === postData?.uid || uid === ADMIN_UID || !uid,
           },
         },
         { status: 200 }
@@ -66,6 +66,7 @@ export async function GET(req: NextRequest) {
         );
       }
       // Fetch only the posts created by the user
+
       // Firebase will throw error at first time and ask to create index
       const postsSnapshot = await firebaseAdminDb
         .collection('posts')
@@ -100,6 +101,7 @@ export async function GET(req: NextRequest) {
       );
     } else {
       // Fetch all posts if no ID is provided
+
       // Firebase will throw error at first time and ask to create index
       const postsSnapshot = await firebaseAdminDb
         .collection('posts')
