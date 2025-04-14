@@ -40,7 +40,12 @@ export const AuthModal = () => {
         setAvatarItemsAsLogin();
       } else {
         localStorage.removeItem('token');
-        setUserDetails(null);
+        setUserDetails({
+          uid: '',
+          displayName: '',
+          email: '',
+          photoURL: '',
+        });
         setAvatarItemsAsLogout();
       }
       setInitialAuthComplete();
