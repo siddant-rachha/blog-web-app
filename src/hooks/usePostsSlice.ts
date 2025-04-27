@@ -35,12 +35,24 @@ export const usePostsSlice = () => {
     (state: GlobalRootState) => state.postsSlice.myPosts
   );
 
+  const wishlistPosts = useSelector(
+    (state: GlobalRootState) => state.postsSlice.wishlistPosts
+  );
+
   const setEditPost = (post: PostType) => {
     dispatch(postsSliceActions.setEditPost(post));
   };
 
   const setReadPost = (post: PostType) => {
     dispatch(postsSliceActions.setReadPost(post));
+  };
+
+  const setMyPosts = (posts: PostType[]) => {
+    dispatch(postsSliceActions.setMyPosts(posts));
+  };
+
+  const setWishlistPosts = (posts: PostType[]) => {
+    dispatch(postsSliceActions.setWishlistPosts(posts));
   };
 
   const getAllPosts = async (latest: boolean = true) => {
@@ -64,6 +76,7 @@ export const usePostsSlice = () => {
             })
           : [];
       dispatch(postsSliceActions.setAllPosts(posts));
+      return posts;
       // successNotify('Posts fetched');
     } catch (error) {
       console.error(error);
@@ -96,12 +109,29 @@ export const usePostsSlice = () => {
       setRootLoading(true);
       const res = await getMyPostsService(latest);
       if (res.posts) {
-        dispatch(postsSliceActions.setMyPosts(res.posts));
+        setMyPosts(res.posts);
       }
       return res.posts;
     } catch (error) {
       console.error(error);
       errorNotify('My posts fetch failed');
+      throw error;
+    } finally {
+      setRootLoading(false);
+    }
+  };
+
+  const getWishlistPosts = async (latest: boolean = true) => {
+    try {
+      setRootLoading(true);
+      const res = await getMyPostsService(latest);
+      if (res.posts) {
+        setWishlistPosts(res.posts);
+      }
+      return res.posts;
+    } catch (error) {
+      console.error(error);
+      errorNotify('Wishlist posts fetch failed');
       throw error;
     } finally {
       setRootLoading(false);
@@ -123,7 +153,7 @@ export const usePostsSlice = () => {
   };
 
   return {
-    selectors: { allPosts, editPost, readPost, myPosts },
+    selectors: { allPosts, editPost, readPost, myPosts, wishlistPosts },
     actions: {
       getAllPosts,
       setEditPost,
@@ -131,6 +161,9 @@ export const usePostsSlice = () => {
       setReadPost,
       getPostById,
       getMyPosts,
+      setMyPosts,
+      setWishlistPosts,
+      getWishlistPosts,
     },
   };
 };

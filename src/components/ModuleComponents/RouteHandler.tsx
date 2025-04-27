@@ -17,7 +17,8 @@ export const RouteHandler = ({ children }: { children: React.ReactNode }) => {
     if (
       activeNav === NavItem.HOME ||
       activeNav === NavItem.CREATE_POST ||
-      activeNav === NavItem.MY_POST
+      activeNav === NavItem.MY_POST ||
+      activeNav === NavItem.MY_WISHLIST
     ) {
       changeNav(activeNav);
     } else {

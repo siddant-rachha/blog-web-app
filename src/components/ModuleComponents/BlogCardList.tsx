@@ -12,7 +12,11 @@ import { usePostsSlice } from '@/hooks/usePostsSlice';
 import { PostType } from '@/types/types';
 import { timestampToString } from '@/utils/TimestampToStringDate/timestampToString';
 
-export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
+export const BlogCardList = ({
+  postsType,
+}: {
+  postsType: 'allPosts' | 'myPosts' | 'wishListPosts';
+}) => {
   const router = useRouter();
   const {
     actions: {
@@ -21,8 +25,11 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
       handleDeletePost,
       setReadPost,
       getMyPosts,
+      setMyPosts,
+      setWishlistPosts,
+      getWishlistPosts,
     },
-    selectors: { allPosts, myPosts },
+    selectors: { allPosts, myPosts, wishlistPosts },
   } = usePostsSlice();
 
   const {
@@ -38,21 +45,22 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
   const [perPage, setPerPage] = useState('3');
 
   useEffect(() => {
-    if (myPostsType) {
+    if (postsType === 'myPosts') {
       setPosts(myPosts);
-    } else {
+    }
+    if (postsType === 'allPosts') {
       setPosts(allPosts);
+    }
+    if (postsType === 'wishListPosts') {
+      setPosts(wishlistPosts);
     }
   }, [allPosts, myPosts]);
 
-  useEffect(() => {
-    if (myPostsType) getMyPosts();
-  }, [userDetails]);
-
   const fetchPosts = async () => {
-    if (myPostsType) {
+    if (postsType === 'myPosts') {
       if (!userDetails?.uid) {
         setText('Login to view your posts.');
+        setMyPosts([]);
         return;
       }
       try {
@@ -64,7 +72,8 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
         setText('Something went wrong, please try refreshing.');
         throw error;
       }
-    } else {
+    }
+    if (postsType === 'allPosts') {
       try {
         await getAllPosts();
         if (!allPosts.length) {
@@ -75,7 +84,26 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
         throw error;
       }
     }
+    if (postsType === 'wishListPosts') {
+      if (!userDetails?.uid) {
+        setText('Login to view your wishlisted posts.');
+        setWishlistPosts([]);
+        return;
+      }
+      try {
+        await getWishlistPosts();
+        if (!wishlistPosts.length) {
+          setText('No wishlists found.');
+        }
+      } catch (error) {
+        setText('Something went wrong, please try refreshing.');
+        throw error;
+      }
+    }
   };
+  useEffect(() => {
+    if (initialAuthComplete) fetchPosts();
+  }, [userDetails, initialAuthComplete]);
 
   const mappedAllPosts = useMemo(
     () =>
@@ -113,13 +141,23 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
       const post = posts.find((post) => post.id === id);
       if (post) {
         await handleDeletePost(post.id);
-        if (myPostsType) {
+        if (postsType === 'myPosts') {
           const myPosts = await getMyPosts();
           if (myPosts && !myPosts.length) {
             setText('No posts found.');
           }
-        } else {
-          await getAllPosts();
+        }
+        if (postsType === 'allPosts') {
+          const allPosts = await getAllPosts();
+          if (allPosts && !allPosts.length) {
+            setText('No posts found.');
+          }
+        }
+        if (postsType === 'wishListPosts') {
+          const wishlistPosts = await getWishlistPosts();
+          if (wishlistPosts && !wishlistPosts.length) {
+            setText('No wishlists found.');
+          }
         }
       }
     }
@@ -143,17 +181,17 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
       setPerPage(item);
     }
     if (type === 'Filter by') {
-      if (myPostsType) {
+      if (postsType === 'myPosts') {
         getMyPosts(item === 'Newest');
-      } else {
+      }
+      if (postsType === 'allPosts') {
         getAllPosts(item === 'Newest');
+      }
+      if (postsType === 'wishListPosts') {
+        getWishlistPosts(item === 'Newest');
       }
     }
   };
-
-  useEffect(() => {
-    if (initialAuthComplete) fetchPosts();
-  }, [userDetails, initialAuthComplete]);
 
   return (
     <>

@@ -12,6 +12,8 @@ const endpoints = {
   updatePostById: (id: string) => `/api/editpost?id=${id}`,
   deletePost: '/api/deletepost',
   myposts: (bool?: boolean) => `/api/getposts?myposts=true&latest=${bool}`,
+  wishlistPosts: (bool?: boolean) =>
+    `/api/getposts?wishlistposts=true&latest=${bool}`,
 };
 
 export default endpoints;

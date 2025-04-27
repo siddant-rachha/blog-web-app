@@ -98,6 +98,7 @@ export const useHeaderNavSlice = () => {
           NavItem.HOME,
           NavItem.CREATE_POST,
           NavItem.MY_POST,
+          NavItem.MY_WISHLIST,
           NavItem.MODULE_COMPONENTS,
         ])
       );
@@ -107,6 +108,7 @@ export const useHeaderNavSlice = () => {
           NavItem.HOME,
           NavItem.CREATE_POST,
           NavItem.MY_POST,
+          NavItem.MY_WISHLIST,
           NavItem.WEB_COMPONENTS,
         ])
       );

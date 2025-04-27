@@ -43,3 +43,15 @@ export const getMyPostsService = async (latest: boolean = true) => {
     throw error;
   }
 };
+
+export const getWishlistPostsService = async (latest: boolean = true) => {
+  try {
+    const response = await get<AllPostsResponse>(
+      endpoints.wishlistPosts(latest)
+    );
+    return response;
+  } catch (error) {
+    console.error('Error fetching wishlist posts:', error);
+    throw error;
+  }
+};
