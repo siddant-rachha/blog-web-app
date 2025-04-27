@@ -6,6 +6,7 @@ import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 import { base64Logo } from '@/assets/base64Logo';
+import { loginBase64Logo } from '@/assets/loginBase64Logo';
 import { AvatarItem, NavItem, Routes } from '@/constants/globalConstants';
 import { useAuthSlice } from '@/hooks/useAuthSlice';
 import { useHeaderNavSlice } from '@/hooks/useHeaderNavSlice';
@@ -99,7 +100,7 @@ export default function LayoutWithNav({
   return (
     <BlogNavContainer
       logoSrc={base64Logo}
-      avatarSrc={userDetails?.photoURL || ''}
+      avatarSrc={userDetails?.photoURL || loginBase64Logo}
       avatarName={userDetails?.displayName || 'Anonymous'}
       avatarItems={avatarItems}
       navItems={navItems}
