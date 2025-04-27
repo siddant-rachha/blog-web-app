@@ -51,7 +51,7 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
 
   const fetchPosts = async () => {
     if (myPostsType) {
-      if (!userDetails) {
+      if (!userDetails?.uid) {
         setText('Login to view your posts.');
         return;
       }
