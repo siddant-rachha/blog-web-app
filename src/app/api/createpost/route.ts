@@ -38,11 +38,38 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    let title = '';
+    let desc = '';
+    let imageFile: File | null = null;
+    let imageBase64 = '';
+
     // Parse multipart form-data
-    const formData = await req.formData();
-    const title = formData.get('title') as string;
-    const desc = formData.get('desc') as string;
-    const imageFile = formData.get('image') as File;
+    if (req.headers.get('content-type')?.includes('multipart/form-data')) {
+      const formData = await req.formData();
+      title = formData.get('title') as string;
+      desc = formData.get('desc') as string;
+      imageFile = formData.get('image') as File;
+    }
+    // check if type is application/json
+    if (req.headers.get('content-type') === 'application/json') {
+      const body = await req.json();
+      title = body.title;
+      desc = body.desc;
+      imageBase64 = body.imageString; // base64 string
+      if (imageBase64) {
+        const byteString = atob(imageBase64.split(',')[1]);
+        const mimeString = imageBase64
+          .split(',')[0]
+          .split(':')[1]
+          .split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        imageFile = new File([ab], 'image', { type: mimeString });
+      }
+    }
 
     if (!title || !desc || !name) {
       return MISSING_FIELDS();
