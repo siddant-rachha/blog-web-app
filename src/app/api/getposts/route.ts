@@ -122,7 +122,7 @@ export async function GET(req: NextRequest) {
         return {
           id: doc.id,
           title: postData.title,
-          desc: postData.desc,
+          desc: postData.desc?.slice(0, 150),
           author: postData?.author,
           imageUrl: postData?.imageUrl,
           authorPic: postData?.authorPic,
