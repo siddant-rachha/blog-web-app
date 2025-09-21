@@ -63,11 +63,46 @@ export async function POST(req: NextRequest) {
 
     // --------------
 
+    let title = '';
+    let desc = '';
+    let imageFileorUrl: File | string = '';
+
+    // for native
+    let imageBase64 = '';
+    let imageUrl = '';
+
     // (5) ---- Parse multipart form-data ------
-    const formData = await req.formData();
-    const title = formData.get('title') as string;
-    const desc = formData.get('desc') as string;
-    const imageFileorUrl = formData.get('image') as File | string;
+    if (req.headers.get('content-type')?.includes('multipart/form-data')) {
+      const formData = await req.formData();
+      title = formData.get('title') as string;
+      desc = formData.get('desc') as string;
+      imageFileorUrl = formData.get('image') as File | string;
+    }
+
+    // check if type is application/json for native devices
+    if (req.headers.get('content-type') === 'application/json') {
+      const body = await req.json();
+      title = body.title;
+      desc = body.desc;
+      imageBase64 = body.imageString || ''; // base64 string
+      imageUrl = body.imageUrl || ''; // existing image url
+      if (imageBase64) {
+        const byteString = atob(imageBase64.split(',')[1]);
+        const mimeString = imageBase64
+          .split(',')[0]
+          .split(':')[1]
+          .split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        imageFileorUrl = new File([ab], 'image', { type: mimeString });
+      } else {
+        imageFileorUrl = imageUrl; // use existing image url
+      }
+    }
+
     if (!title || !desc || !name) {
       return MISSING_FIELDS();
     }
@@ -76,7 +111,6 @@ export async function POST(req: NextRequest) {
     }
 
     // (6) ---- upload image to cloudinary ------
-    let imageUrl = '';
     if (imageFileorUrl instanceof File) {
       // delete old image from cloudinary
       if (postData?.imageUrl) {
