@@ -77,7 +77,7 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
     }
   };
 
-  const mappedAllPosts = useMemo(
+  const mappedAllPosts: Parameters<typeof BlogList>[0]['blogPosts'] = useMemo(
     () =>
       posts.map((post) => {
         // fix the type
@@ -90,6 +90,8 @@ export const BlogCardList = ({ myPostsType }: { myPostsType?: boolean }) => {
           avatarSrc: post.authorPic,
           imgSrc: post.imageUrl || emptyImg.src,
           date: timestampToString(createdAt._seconds, createdAt._nanoseconds),
+          showFavorite: false, // variable is not used yet
+          isFavorite: false, // variable is not used yet
         };
       }),
     [posts]
