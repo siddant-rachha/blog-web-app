@@ -25,7 +25,7 @@
     "@reduxjs/toolkit": "^2.5.1",
     "@siddant-rachha/blog-components": "^2.0.17",
     "axios": "^1.7.9",
-    "cloudinary": "^2.6.0",
+    "cloudinary": "^2.7.0",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
     "lodash": "^4.17.21",
