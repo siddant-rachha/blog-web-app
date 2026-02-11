@@ -24,7 +24,7 @@
     "@mui/material-nextjs": "^6.4.3",
     "@reduxjs/toolkit": "^2.5.1",
     "@siddant-rachha/blog-components": "^2.0.17",
-    "axios": "^1.7.9",
+    "axios": "^1.13.5",
     "cloudinary": "^2.6.0",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
